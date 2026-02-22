@@ -63,7 +63,14 @@ SECRET_KEY=your-secret-key-here
 python3 run.py
 ```
 
-Then open [http://localhost:5000](http://localhost:5000) in your browser.
+Then open [http://127.0.0.1:5000](http://127.0.0.1:5000) in your browser.
+
+> **Note for macOS users:** Use `127.0.0.1:5000` rather than `localhost:5000`. On newer versions of macOS, `localhost` can resolve slowly or fail due to IPv6 handling.
+
+To stop the server press `Ctrl+C` in your terminal. If the port gets stuck in use, run:
+```
+kill $(lsof -ti:5000)
+```
 
 ---
 
