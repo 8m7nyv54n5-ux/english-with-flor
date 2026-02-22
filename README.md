@@ -15,6 +15,8 @@ Built as a Python learning project, working through Flask fundamentals step by s
 - User dashboard showing enrolment details
 - Login rate limiting to block brute-force attempts
 - Patagonia photo slideshow on the home page
+- Word of the Day — a daily-rotating English vocabulary card on the home page, selected from a curated list using a date-based index (no database required)
+- Feature flags — course visibility controlled by simple boolean flags in `routes.py` (e.g. Advanced course toggled off until ready to launch)
 
 ---
 
@@ -88,6 +90,7 @@ language_school/
     ├── auth.py             ← auth blueprint (register, login, enrol)
     ├── forms.py            ← WTForms form classes
     ├── translations.py     ← EN/ES text dictionary
+    ├── words.py            ← curated word list for the Word of the Day feature
     ├── templates/          ← Jinja2 HTML templates
     └── static/             ← CSS and images
 ```
