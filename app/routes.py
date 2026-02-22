@@ -6,6 +6,8 @@
 from flask import Blueprint, render_template, request
 from flask_login import login_required, current_user
 from app.translations import TRANSLATIONS
+from datetime import date
+from app.words import WORDS
 
 # Create the "main" blueprint — registered with the app in __init__.py
 main = Blueprint("main", __name__)
@@ -25,7 +27,10 @@ def get_lang():
 def home():
     """Render the home page with the correct language."""
     lang = get_lang()
-    return render_template("home.html", t=TRANSLATIONS[lang], lang=lang, show_advanced=SHOW_ADVANCED)
+    day_index = date.today().toordinal() % len(WORDS)  # changes daily
+    word_of_day = WORDS[day_index]
+    return render_template("home.html", t=TRANSLATIONS[lang], lang=lang, show_advanced=SHOW_ADVANCED, word=word_of_day)
+
 
 
 @main.route("/courses")

@@ -147,6 +147,10 @@ TRANSLATIONS = {
         # Enrolment
         "enrol_title": "Enrol on a Course",
 
+        # Word of the day
+        "wotd_label": "Word of the Day",
+        "wotd_no_equiv": "No direct Spanish equivalent",
+
         # Dashboard
         "dashboard_title": "Welcome",
         "dashboard_your_details": "Your Details",
@@ -306,6 +310,11 @@ TRANSLATIONS = {
 
         # Enrolment
         "enrol_title": "Inscribirse en un curso",
+
+        # Word of the day
+        "wotd_label": "Palabra del día",
+        "wotd_no_equiv": "Sin equivalente directo en español",
+
 
         # Dashboard
         "dashboard_title": "Bienvenido",

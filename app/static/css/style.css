@@ -663,3 +663,94 @@ a.program-card {
         box-shadow: 0 8px 24px rgba(0,0,0,0.08);
     }
 }
+
+/* ── Word of the Day ── */
+.wotd {
+    padding: 4rem 0;
+    background: var(--warm);
+}
+
+.wotd-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.wotd-card {
+    background: var(--white);
+    border-radius: 20px;
+    padding: 2.5rem 3rem;
+    margin-top: 1.2rem;
+    box-shadow: 0 4px 24px rgba(47,47,47,0.07);
+    text-align: left;
+}
+
+.wotd-header {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 1.2rem;
+}
+
+.wotd-word {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.6rem;
+    color: var(--dark);
+    opacity: 0; /* hidden until the section scrolls into view */
+}
+
+/* Only animate once the IntersectionObserver marks the parent as visible */
+.wotd-inner.visible .wotd-word {
+    animation: wotdFade 1.1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+    animation-delay: 0.3s;
+}
+
+@keyframes wotdFade {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+.wotd-phonetic {
+    font-size: 0.95rem;
+    color: var(--muted);
+    font-style: italic;
+}
+
+.wotd-pos {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 0.2rem 0.7rem;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.wotd-definition {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: var(--dark);
+    margin-bottom: 0.8rem;
+}
+
+.wotd-example {
+    font-style: italic;
+    color: var(--muted);
+    font-size: 0.97rem;
+    margin-bottom: 1.2rem;
+    padding-left: 1rem;
+    border-left: 3px solid var(--pink);
+}
+
+.wotd-tag {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 0.25rem 0.8rem;
+    border-radius: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}

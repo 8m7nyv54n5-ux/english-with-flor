@@ -96,6 +96,24 @@
         </div>
     </section>
 
+    <!-- ── Word of the Day ── -->
+    <section class="wotd">
+        <div class="container">
+            <div class="wotd-inner reveal">
+                <div class="section-label">{{ t["wotd_label"] }}</div>
+                <div class="wotd-card">
+                    <div class="wotd-header">
+                        <span class="wotd-word">{{ word.word }}</span>
+                        <span class="wotd-phonetic">{{ word.phonetic }}</span>
+                        <span class="wotd-pos">{{ word.part_of_speech }}</span>
+                    </div>
+                    <p class="wotd-definition">{{ word.definition }}</p>
+                    <p class="wotd-example">"{{ word.example }}"</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ── Programs ── -->
     <section class="programs">
         <div class="container">
