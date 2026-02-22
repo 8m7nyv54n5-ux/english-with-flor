@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-wrapper">
+    <div class="page-content">
+        <h1>{{ t["dashboard_title"] }}, {{ user.full_name }}!</h1>
+
+        <div class="card" style="margin-top:1.5rem">
+            <h2>{{ t["dashboard_your_details"] }}</h2>
+            <div class="detail-row"><strong>{{ t["dashboard_username"] }}:</strong> {{ user.username }}</div>
+            <div class="detail-row"><strong>{{ t["dashboard_email"] }}:</strong> {{ user.email }}</div>
+        </div>
+
+        {% if user.enrolment %}
+            <div class="card">
+                <h2>{{ t["dashboard_enrolment"] }}</h2>
+                <div class="detail-row"><strong>{{ t["dashboard_course"] }}:</strong> {{ user.enrolment.course }}</div>
+                {% if user.enrolment.user_type == "argentina" %}
+                    <div class="detail-row"><strong>CUIT / CUIL:</strong> {{ user.enrolment.cuit_cuil }}</div>
+                    <div class="detail-row"><strong>DNI:</strong> {{ user.enrolment.dni }}</div>
+                {% else %}
+                    <div class="detail-row"><strong>{{ t["dashboard_passport"] }}:</strong> {{ user.enrolment.passport_no }}</div>
+                {% endif %}
+            </div>
+        {% else %}
+            <p>{{ t["dashboard_not_enrolled"] }} <a href="{{ url_for('auth.enrol', lang=lang) }}">{{ t["dashboard_enrol_link"] }}</a></p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

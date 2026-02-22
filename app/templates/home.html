@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <!-- ── Hero ── -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-grid">
+
+                <!-- Left: text + CTAs -->
+                <div class="reveal">
+                    <div class="hero-tag">{{ t["hero_tag"] }}</div>
+                    <h1>{{ t["home_title"] }}</h1>
+                    <p>{{ t["home_subtitle"] }}</p>
+                    <div class="hero-actions">
+                        <a href="{{ url_for('auth.register', lang=lang) }}" class="btn btn-accent">{{ t["hero_cta_primary"] }}</a>
+                        <a href="/courses?lang={{ lang }}" class="btn btn-outline">{{ t["hero_cta_secondary"] }}</a>
+                    </div>
+                </div>
+
+                <!-- Right: slideshow -->
+                <div class="hero-visual reveal" style="transition-delay:0.15s">
+                    <div class="slideshow">
+                        <div class="slide active">
+                            <img src="{{ url_for('static', filename='images/bee_lavender.jpeg') }}" alt="Bee on lavender">
+                            <div class="slide-caption">Lavanda, Patagonia</div>
+                        </div>
+                        <div class="slide">
+                            <img src="{{ url_for('static', filename='images/bosques_traful.jpeg') }}" alt="Bosques de Traful">
+                            <div class="slide-caption">Bosques de Traful, Neuquén</div>
+                        </div>
+                        <div class="slide">
+                            <img src="{{ url_for('static', filename='images/cairn_lake.jpeg') }}" alt="Cairn by a lake">
+                            <div class="slide-caption">Lago Traful, Patagonia</div>
+                        </div>
+                        <div class="slide">
+                            <img src="{{ url_for('static', filename='images/cerro_traful.jpeg') }}" alt="Cerro Traful">
+                            <div class="slide-caption">Cerro Traful, Neuquén</div>
+                        </div>
+                        <div class="slide">
+                            <img src="{{ url_for('static', filename='images/isla2_traful.jpeg') }}" alt="Isla Traful">
+                            <div class="slide-caption">Isla Traful, Patagonia</div>
+                        </div>
+                        <div class="slide">
+                            <img src="{{ url_for('static', filename='images/isla_traful.jpeg') }}" alt="Isla Traful">
+                            <div class="slide-caption">Lago Traful, Neuquén</div>
+                        </div>
+                        <div class="slide">
+                            <img src="{{ url_for('static', filename='images/sunset_traful.jpeg') }}" alt="Sunset over Traful">
+                            <div class="slide-caption">Atardecer en Traful</div>
+                        </div>
+                        <div class="slide">
+                            <img src="{{ url_for('static', filename='images/wave_lake.jpeg') }}" alt="Waves on lake">
+                            <div class="slide-caption">Lago Traful, Patagonia</div>
+                        </div>
+                        <button class="slide-btn prev" onclick="moveSlide(-1)">&#8592;</button>
+                        <button class="slide-btn next" onclick="moveSlide(1)">&#8594;</button>
+                        <div class="slide-dots">
+                            <span class="dot active" onclick="goToSlide(0)"></span>
+                            <span class="dot" onclick="goToSlide(1)"></span>
+                            <span class="dot" onclick="goToSlide(2)"></span>
+                            <span class="dot" onclick="goToSlide(3)"></span>
+                            <span class="dot" onclick="goToSlide(4)"></span>
+                            <span class="dot" onclick="goToSlide(5)"></span>
+                            <span class="dot" onclick="goToSlide(6)"></span>
+                            <span class="dot" onclick="goToSlide(7)"></span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Stats ── -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid reveal">
+                <div>
+                    <div class="stat-num">500+</div>
+                    <div class="stat-label">{{ t["stat_students"] }}</div>
+                </div>
+                <div>
+                    <div class="stat-num">15</div>
+                    <div class="stat-label">{{ t["stat_years"] }}</div>
+                </div>
+                <div>
+                    <div class="stat-num">🎓</div>
+                    <div class="stat-label">{{ t["stat_format"] }}</div>
+                </div>
+                <div>
+                    <div class="stat-num">4.9</div>
+                    <div class="stat-label">{{ t["stat_rating"] }}</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Programs ── -->
+    <section class="programs">
+        <div class="container">
+            <div class="reveal">
+                <div class="section-label">{{ t["nav_courses"] }}</div>
+                <h2 class="section-title">{{ t["courses_title"] }}</h2>
+                <p class="section-desc">{{ t["course_desc"] }}</p>
+            </div>
+            <div class="program-grid">
+                <a href="{{ url_for('main.course_beginner', lang=lang) }}" class="program-card reveal" style="transition-delay:0.05s">
+                    <div class="program-icon">🌱</div>
+                    <h3>{{ t["beg_title"] }}</h3>
+                    <p>{{ t["beg_tagline"] }}</p>
+                    <span class="program-level">{{ t["beg_level"] }}</span>
+                </a>
+                <a href="{{ url_for('main.course_intermediate', lang=lang) }}" class="program-card reveal" style="transition-delay:0.15s">
+                    <div class="program-icon">💬</div>
+                    <h3>{{ t["int_title"] }}</h3>
+                    <p>{{ t["int_tagline"] }}</p>
+                    <span class="program-level">{{ t["int_level"] }}</span>
+                </a>
+                <a href="{{ url_for('main.course_advanced', lang=lang) }}" class="program-card reveal" style="transition-delay:0.25s">
+                    <div class="program-icon">🎯</div>
+                    <h3>{{ t["adv_title"] }}</h3>
+                    <p>{{ t["adv_tagline"] }}</p>
+                    <span class="program-level">{{ t["adv_level"] }}</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Method ── -->
+    <section class="method">
+        <div class="container">
+            <div class="method-grid">
+                <div class="reveal">
+                    <div class="section-label">{{ t["method_label"] }}</div>
+                    <h2 class="section-title">{{ t["method_title"] }}</h2>
+                    <p class="section-desc">{{ t["method_desc"] }}</p>
+                </div>
+                <div class="method-steps reveal" style="transition-delay:0.1s">
+                    <div class="method-step">
+                        <div class="step-num">1</div>
+                        <div class="step-content">
+                            <h4>{{ t["step1_title"] }}</h4>
+                            <p>{{ t["step1_desc"] }}</p>
+                        </div>
+                    </div>
+                    <div class="method-step">
+                        <div class="step-num">2</div>
+                        <div class="step-content">
+                            <h4>{{ t["step2_title"] }}</h4>
+                            <p>{{ t["step2_desc"] }}</p>
+                        </div>
+                    </div>
+                    <div class="method-step">
+                        <div class="step-num">3</div>
+                        <div class="step-content">
+                            <h4>{{ t["step3_title"] }}</h4>
+                            <p>{{ t["step3_desc"] }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Testimonial ── -->
+    <section class="testimonial">
+        <div class="container reveal">
+            <div class="section-label">Student Stories</div>
+            <blockquote>"{{ t["testimonial_quote"] }}"</blockquote>
+            <div class="testimonial-author">
+                <strong>{{ t["testimonial_author"] }}</strong> &nbsp;·&nbsp; {{ t["testimonial_location"] }}
+            </div>
+        </div>
+    </section>
+
+    <!-- ── CTA ── -->
+    <section class="cta">
+        <div class="container reveal">
+            <div class="cta-box">
+                <h2>{{ t["cta_title"] }}</h2>
+                <p>{{ t["cta_desc"] }}</p>
+                <a href="{{ url_for('auth.register', lang=lang) }}" class="btn btn-accent">{{ t["cta_btn"] }}</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        let current = 0;
+        const slides = document.querySelectorAll(".slide");
+        const dots   = document.querySelectorAll(".dot");
+        let timer    = setInterval(() => moveSlide(1), 4500);
+
+        function showSlide(n) {
+            slides[current].classList.remove("active");
+            dots[current].classList.remove("active");
+            current = (n + slides.length) % slides.length;
+            slides[current].classList.add("active");
+            dots[current].classList.add("active");
+        }
+        function moveSlide(step) {
+            clearInterval(timer);
+            showSlide(current + step);
+            timer = setInterval(() => moveSlide(1), 4500);
+        }
+        function goToSlide(n) {
+            clearInterval(timer);
+            showSlide(n);
+            timer = setInterval(() => moveSlide(1), 4500);
+        }
+    </script>
+
+{% endblock %}

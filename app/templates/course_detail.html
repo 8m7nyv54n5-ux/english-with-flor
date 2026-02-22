@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-wrapper">
+    <div class="course-detail">
+
+        <!-- Header -->
+        <div class="course-header">
+            <span class="level-badge">{{ course.level }}</span>
+            <h1>{{ course.title }}</h1>
+            <p class="course-tagline">{{ course.tagline }}</p>
+            <a href="{{ url_for('auth.enrol', lang=lang) }}" class="btn btn-accent">{{ course.cta }}</a>
+        </div>
+
+        <!-- Main content grid -->
+        <div class="course-body">
+
+            <!-- Left column -->
+            <div class="course-col">
+                <section class="course-section">
+                    <h2>{{ course.who_title }}</h2>
+                    <p>{{ course.who_desc }}</p>
+                </section>
+
+                <section class="course-section">
+                    <h2>{{ course.learn_title }}</h2>
+                    <ul class="learn-list">
+                        {% for item in course.learn_items %}
+                        <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </section>
+            </div>
+
+            <!-- Right column -->
+            <div class="course-col">
+                <div class="card course-info-card">
+                    <h3>{{ course.format_title }}</h3>
+                    <p>{{ course.format_desc }}</p>
+                </div>
+
+                <div class="card course-info-card course-price-card">
+                    <h3>{{ course.price_title }}</h3>
+                    <p>{{ course.price_desc }}</p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- CTA strip -->
+        <div class="course-cta-strip">
+            <a href="{{ url_for('auth.enrol', lang=lang) }}" class="btn btn-accent">{{ course.cta }}</a>
+        </div>
+
+        <!-- Back link -->
+        <a href="{{ url_for('main.courses', lang=lang) }}" class="back-link">{{ course.back }}</a>
+
+    </div>
+</div>
+{% endblock %}

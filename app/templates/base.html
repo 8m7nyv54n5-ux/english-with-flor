@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English with Flor</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+    <nav id="nav">
+        <div class="container">
+            <a href="/?lang={{ lang }}" class="logo">English<span> with Flor</span></a>
+
+            <div class="nav-links" id="navLinks">
+                <a href="/courses?lang={{ lang }}">{{ t["nav_courses"] }}</a>
+                <a href="/about?lang={{ lang }}">{{ t["nav_about"] }}</a>
+                <a href="/contact?lang={{ lang }}">{{ t["nav_contact"] }}</a>
+
+                {% if current_user.is_authenticated %}
+                    <a href="{{ url_for('main.dashboard', lang=lang) }}">{{ t["nav_dashboard"] }}</a>
+                    <a href="{{ url_for('auth.logout', lang=lang) }}" class="btn btn-outline" style="padding:0.4rem 1rem">{{ t["logout"] }}</a>
+                {% else %}
+                    <a href="{{ url_for('auth.login', lang=lang) }}">{{ t["nav_login"] }}</a>
+                    <a href="{{ url_for('auth.register', lang=lang) }}" class="btn btn-accent" style="padding:0.4rem 1rem">{{ t["nav_register"] }}</a>
+                {% endif %}
+
+                <a href="?lang={{ 'es' if lang == 'en' else 'en' }}" class="lang-toggle">{{ t["lang_toggle"] }}</a>
+            </div>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    {% block content %}{% endblock %}
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <div class="footer-copy">{{ t["footer_copy"] }}</div>
+                <div class="footer-links">
+                    <a href="/about?lang={{ lang }}">{{ t["nav_about"] }}</a>
+                    <a href="/contact?lang={{ lang }}">{{ t["nav_contact"] }}</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Scroll reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.12 });
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Nav frosted glass on scroll
+        const navEl = document.getElementById('nav');
+        window.addEventListener('scroll', () => {
+            navEl.classList.toggle('scrolled', window.scrollY > 40);
+        });
+
+        // Mobile nav toggle
+        const toggle = document.getElementById('navToggle');
+        const links  = document.getElementById('navLinks');
+        toggle.addEventListener('click', () => links.classList.toggle('open'));
+    </script>
+
+</body>
+</html>
