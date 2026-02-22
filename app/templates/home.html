@@ -117,12 +117,14 @@
                     <p>{{ t["int_tagline"] }}</p>
                     <span class="program-level">{{ t["int_level"] }}</span>
                 </a>
+                {% if show_advanced %}
                 <a href="{{ url_for('main.course_advanced', lang=lang) }}" class="program-card reveal" style="transition-delay:0.25s">
                     <div class="program-icon">🎯</div>
                     <h3>{{ t["adv_title"] }}</h3>
                     <p>{{ t["adv_tagline"] }}</p>
                     <span class="program-level">{{ t["adv_level"] }}</span>
                 </a>
+                {% endif %}
             </div>
         </div>
     </section>

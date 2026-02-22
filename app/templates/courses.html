@@ -21,14 +21,16 @@
                 <p>{{ t["int_tagline"] }}</p>
                 <a href="{{ url_for('main.course_intermediate', lang=lang) }}" class="btn btn-outline">{{ t["courses_view_btn"] }}</a>
             </div>
-
+            
+            {% if show_advanced %}
             <div class="card course-card">
                 <span class="level-badge level-badge--lime">C1 – C2</span>
                 <h2>{{ t["adv_title"] }}</h2>
                 <p>{{ t["adv_tagline"] }}</p>
                 <a href="{{ url_for('main.course_advanced', lang=lang) }}" class="btn btn-outline">{{ t["courses_view_btn"] }}</a>
             </div>
-
+            {% endif %}
+            
         </div>
     </div>
 </div>

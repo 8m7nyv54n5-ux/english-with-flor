@@ -9,7 +9,8 @@ from app.translations import TRANSLATIONS
 
 # Create the "main" blueprint — registered with the app in __init__.py
 main = Blueprint("main", __name__)
-
+# Feature flag functionality for advanced course
+SHOW_ADVANCED = False
 
 def get_lang():
     """Read the ?lang= URL parameter and return a valid language code.
@@ -24,14 +25,14 @@ def get_lang():
 def home():
     """Render the home page with the correct language."""
     lang = get_lang()
-    return render_template("home.html", t=TRANSLATIONS[lang], lang=lang)
+    return render_template("home.html", t=TRANSLATIONS[lang], lang=lang, show_advanced=SHOW_ADVANCED)
 
 
 @main.route("/courses")
 def courses():
     """Render the courses listing page (shows all three course cards)."""
     lang = get_lang()
-    return render_template("courses.html", t=TRANSLATIONS[lang], lang=lang)
+    return render_template("courses.html", t=TRANSLATIONS[lang], lang=lang, show_advanced=SHOW_ADVANCED)
 
 
 @main.route("/courses/beginner")
