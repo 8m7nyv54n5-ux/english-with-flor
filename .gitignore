@@ -1,0 +1,13 @@
+# Secrets — never commit these
+.env
+
+# Database — contains real user data
+*.db
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+.venv/
