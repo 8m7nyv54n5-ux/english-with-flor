@@ -46,7 +46,8 @@ def register():
 
         # Create the new User object and save it to the database
         user = User(
-            full_name=form.full_name.data,
+            first_name=form.first_name.data,
+            last_name=form.last_name.data,
             email=form.email.data,
             username=form.username.data,
             password_hash=hashed_password

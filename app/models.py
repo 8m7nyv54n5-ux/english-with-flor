@@ -10,7 +10,8 @@ from app import db
 class User(UserMixin, db.Model):
     """Represents a registered user of the site."""
     id            = db.Column(db.Integer, primary_key=True)   # unique ID, auto-incremented
-    full_name     = db.Column(db.String(150), nullable=False)  # e.g. "María Fernández"
+    first_name    = db.Column(db.String(80),  nullable=False)  # e.g. "María"
+    last_name     = db.Column(db.String(80),  nullable=False)  # e.g. "Fernández"
     email         = db.Column(db.String(150), unique=True, nullable=False)  # must be unique
     username      = db.Column(db.String(80),  unique=True, nullable=False)  # must be unique
     password_hash = db.Column(db.String(256), nullable=False)  # hashed — never plain text
