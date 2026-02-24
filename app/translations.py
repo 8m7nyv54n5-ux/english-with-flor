@@ -132,10 +132,27 @@ TRANSLATIONS = {
         "contact_email": "Email",
         "contact_phone": "Phone",
 
-        # Register
+        # Register — page text
         "register_title": "Create an Account",
         "already_have_account": "Already have an account?",
         "login_link": "Log in here",
+
+        # Register — field labels
+        "register_first_name": "First Name",
+        "register_last_name": "Last Name",
+        "register_email": "Email",
+        "register_username": "Username",
+        "register_password": "Password",
+        "register_confirm": "Confirm Password",
+        "register_submit": "Register",
+
+        # Register — validator error messages (keys match message= strings in forms.py)
+        "error_field_required": "This field is required.",
+        "error_name_length": "Must be at least 2 characters.",
+        "error_username_length": "Must be between 3 and 80 characters.",
+        "error_invalid_email": "Please enter a valid email address.",
+        "error_password_too_short": "Password must be at least 8 characters.",
+        "error_passwords_must_match": "Passwords must match.",
 
         # Login
         "login_title": "Log In",
@@ -295,10 +312,27 @@ TRANSLATIONS = {
         "contact_email": "Correo electrónico",
         "contact_phone": "Teléfono",
 
-        # Register
+        # Register — page text
         "register_title": "Crear una cuenta",
         "already_have_account": "¿Ya tienes una cuenta?",
         "login_link": "Inicia sesión aquí",
+
+        # Register — field labels
+        "register_first_name": "Nombre",
+        "register_last_name": "Apellido",
+        "register_email": "Correo electrónico",
+        "register_username": "Nombre de usuario",
+        "register_password": "Contraseña",
+        "register_confirm": "Confirmar contraseña",
+        "register_submit": "Registrarse",
+
+        # Register — validator error messages (keys match message= strings in forms.py)
+        "error_field_required": "Este campo es obligatorio.",
+        "error_name_length": "Debe tener al menos 2 caracteres.",
+        "error_username_length": "Debe tener entre 3 y 80 caracteres.",
+        "error_invalid_email": "Por favor introduce un correo electrónico válido.",
+        "error_password_too_short": "La contraseña debe tener al menos 8 caracteres.",
+        "error_passwords_must_match": "Las contraseñas deben coincidir.",
 
         # Login
         "login_title": "Iniciar sesión",

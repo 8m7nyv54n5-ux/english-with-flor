@@ -10,12 +10,26 @@ from wtforms.validators import DataRequired, Email, Length, EqualTo
 
 class RegistrationForm(FlaskForm):
     """Form for creating a new user account."""
-    first_name = StringField("First Name", validators=[DataRequired(), Length(min=2, max=80)])
-    last_name  = StringField("Last Name",  validators=[DataRequired(), Length(min=2, max=80)])
-    email      = StringField("Email",      validators=[DataRequired(), Email()])  # Email() checks format
-    username   = StringField("Username",   validators=[DataRequired(), Length(min=3, max=80)])
-    password   = PasswordField("Password", validators=[DataRequired(), Length(min=8)])
-    confirm    = PasswordField("Confirm Password", validators=[DataRequired(), EqualTo("password")])  # must match password
+    # Validator message strings are translation keys — the template looks them up in t[]
+    # so the error displays in the user's chosen language.
+    first_name = StringField("First Name", validators=[
+                     DataRequired(message="error_field_required"),
+                     Length(min=2, max=80, message="error_name_length")])
+    last_name  = StringField("Last Name",  validators=[
+                     DataRequired(message="error_field_required"),
+                     Length(min=2, max=80, message="error_name_length")])
+    email      = StringField("Email",      validators=[
+                     DataRequired(message="error_field_required"),
+                     Email(message="error_invalid_email")])
+    username   = StringField("Username",   validators=[
+                     DataRequired(message="error_field_required"),
+                     Length(min=3, max=80, message="error_username_length")])
+    password   = PasswordField("Password", validators=[
+                     DataRequired(message="error_field_required"),
+                     Length(min=8, message="error_password_too_short")])
+    confirm    = PasswordField("Confirm Password", validators=[
+                     DataRequired(message="error_field_required"),
+                     EqualTo("password", message="error_passwords_must_match")])
     submit     = SubmitField("Register")
 
 
