@@ -14,7 +14,6 @@ TRANSLATIONS = {
         "nav_register": "Register",
         "nav_login": "Login",
         "nav_dashboard": "My Account",
-        "lang_toggle": "Español",
 
         # Home — hero
         "home_title": "Speak English with confidence",
@@ -178,7 +177,6 @@ TRANSLATIONS = {
         "nav_register": "Registrarse",
         "nav_login": "Iniciar sesión",
         "nav_dashboard": "Mi cuenta",
-        "lang_toggle": "English",
 
         # Home — hero
         "home_title": "Habla inglés con confianza",

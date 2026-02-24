@@ -26,7 +26,10 @@
                     <a href="{{ url_for('auth.register', lang=lang) }}" class="btn btn-accent" style="padding:0.4rem 1rem">{{ t["nav_register"] }}</a>
                 {% endif %}
 
-                <a href="?lang={{ 'es' if lang == 'en' else 'en' }}" class="lang-toggle">{{ t["lang_toggle"] }}</a>
+                <a href="?lang={{ 'es' if lang == 'en' else 'en' }}" class="lang-toggle">
+                    {{ '🇬🇧 EN' if lang == 'en' else '🇦🇷 ES' }}
+                </a>
+
             </div>
 
             <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
