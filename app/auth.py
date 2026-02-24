@@ -55,9 +55,9 @@ def register():
         db.session.add(user)
         db.session.commit()
 
-        # Auto log in and send straight to enrolment
+        # Auto log in and send to the dashboard
         login_user(user)
-        return redirect(url_for("auth.enrol", lang=lang))
+        return redirect(url_for("main.dashboard", lang=lang))
 
     return render_template("register.html", form=form, t=TRANSLATIONS[lang], lang=lang)
 
