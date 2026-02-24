@@ -219,7 +219,7 @@ select {
 }
 input:focus, select:focus { outline: none; border-color: var(--blue); }
 
-input[type="submit"] {
+input[type="submit"], button[type="submit"] {
     display: inline-flex;
     align-items: center;
     padding: 0.65rem 1.75rem;
@@ -234,7 +234,7 @@ input[type="submit"] {
     transition: background 0.2s, transform 0.15s;
     margin-top: 0.5rem;
 }
-input[type="submit"]:hover { background: #aaee55; transform: translateY(-1px); }
+input[type="submit"]:hover, button[type="submit"]:hover { background: #aaee55; transform: translateY(-1px); }
 
 /* ── Flash messages ────────────────────────────────────── */
 .flash {
