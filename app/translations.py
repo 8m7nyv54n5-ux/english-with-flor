@@ -261,6 +261,17 @@ TRANSLATIONS = {
         "edit_profile_btn": "Edit Details",
         "edit_profile_cancel": "Cancel",
 
+        # Dashboard — change password
+        "change_pw_title": "Change Your Password",
+        "change_pw_current": "Current Password",
+        "change_pw_new": "New Password",
+        "change_pw_confirm": "Confirm New Password",
+        "change_pw_submit": "Change Password",
+        "change_pw_success": "Your password has been changed.",
+        "change_pw_btn": "Change Password",
+        "change_pw_cancel": "Cancel",
+        "error_wrong_password": "Current password is incorrect.",
+
         # Errors
         "error_username_taken": "That username is already taken. Please choose another.",
         "error_email_taken": "An account with that email already exists.",
@@ -531,6 +542,17 @@ TRANSLATIONS = {
         "edit_profile_success": "Tus datos han sido actualizados.",
         "edit_profile_btn": "Editar datos",
         "edit_profile_cancel": "Cancelar",
+
+        # Dashboard — change password
+        "change_pw_title": "Cambiar tu contraseña",
+        "change_pw_current": "Contraseña actual",
+        "change_pw_new": "Nueva contraseña",
+        "change_pw_confirm": "Confirmar nueva contraseña",
+        "change_pw_submit": "Cambiar contraseña",
+        "change_pw_success": "Tu contraseña ha sido cambiada.",
+        "change_pw_btn": "Cambiar contraseña",
+        "change_pw_cancel": "Cancelar",
+        "error_wrong_password": "La contraseña actual es incorrecta.",
 
         # Errors
         "error_username_taken": "Ese nombre de usuario ya está en uso. Por favor elige otro.",

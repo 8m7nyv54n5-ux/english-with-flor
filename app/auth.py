@@ -7,7 +7,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, limiter
 from app.models import User, Enrolment
-from app.forms import RegistrationForm, LoginForm, EnrolmentForm, EditProfileForm
+from app.forms import RegistrationForm, LoginForm, EnrolmentForm, EditProfileForm, ChangePasswordForm
 from app.translations import TRANSLATIONS
 from app.routes import SHOW_C_LEVELS
 
@@ -181,3 +181,31 @@ def edit_profile():
         return redirect(url_for("main.dashboard", lang=lang))
 
     return render_template("edit_profile.html", form=form, t=t, lang=lang)
+
+
+@auth.route("/change-password", methods=["GET", "POST"])
+@login_required  # must be logged in to change your own password
+def change_password():
+    """Let the user change their password.
+    Requires the current password for verification before accepting a new one.
+    The new password is hashed with scrypt before saving — same as registration."""
+    lang = get_lang()
+    t = TRANSLATIONS[lang]
+    form = ChangePasswordForm()
+
+    if form.validate_on_submit():
+        # Verify the current password is correct before allowing a change
+        if not check_password_hash(current_user.password_hash, form.current_password.data):
+            flash(t["error_wrong_password"])
+            return render_template("change_password.html", form=form, t=t, lang=lang)
+
+        # Hash the new password and save it
+        current_user.password_hash = generate_password_hash(
+            form.new_password.data, method="scrypt"
+        )
+        db.session.commit()
+
+        flash(t["change_pw_success"], "success")
+        return redirect(url_for("main.dashboard", lang=lang))
+
+    return render_template("change_password.html", form=form, t=t, lang=lang)

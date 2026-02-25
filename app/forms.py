@@ -92,6 +92,20 @@ class EditProfileForm(FlaskForm):
     submit     = SubmitField("Save")
 
 
+class ChangePasswordForm(FlaskForm):
+    """Form for changing password from the dashboard.
+    Requires the current password to verify identity before allowing the change."""
+    current_password = PasswordField("Current Password", validators=[
+                           DataRequired(message="error_field_required")])
+    new_password     = PasswordField("New Password", validators=[
+                           DataRequired(message="error_field_required"),
+                           Length(min=8, message="error_password_too_short")])
+    confirm          = PasswordField("Confirm New Password", validators=[
+                           DataRequired(message="error_field_required"),
+                           EqualTo("new_password", message="error_passwords_must_match")])
+    submit           = SubmitField("Change Password")
+
+
 class ContactForm(FlaskForm):
     """Form for sending a message via the contact page."""
     name    = StringField("Name", validators=[

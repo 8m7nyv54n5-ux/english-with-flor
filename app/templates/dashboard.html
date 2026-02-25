@@ -17,8 +17,9 @@
                     <div class="detail-row"><strong>{{ t["dashboard_passport"] }}:</strong> {{ user.enrolment.passport_no }}</div>
                 {% endif %}
             {% endif %}
-            <div style="margin-top:1rem">
+            <div style="margin-top:1rem; display:flex; gap:0.75rem; flex-wrap:wrap">
                 <a href="{{ url_for('auth.edit_profile', lang=lang) }}" class="btn btn-outline">{{ t["edit_profile_btn"] }}</a>
+                <a href="{{ url_for('auth.change_password', lang=lang) }}" class="btn btn-outline">{{ t["change_pw_btn"] }}</a>
             </div>
         </div>
 
