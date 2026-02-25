@@ -10,10 +10,10 @@ Built as a Python learning project, working through Flask fundamentals step by s
 
 - Bilingual UI — full English and Spanish support via a `?lang=` URL toggle
 - Course pages — individual CEFR levels: A1, A2, B1, B2 (live), C1 and C2 (coming soon)
-- User registration and login with hashed passwords
-- Course enrolment form — handles Argentine (CUIT/CUIL, DNI) and international (passport) students
+- User registration and login with hashed passwords (scrypt)
+- Course enrolment form — handles Argentine (CUIT/CUIL, DNI) and international (passport) students, with format validation on identity fields
 - User dashboard showing enrolment details
-- Login rate limiting to block brute-force attempts
+- Security hardening — rate limiting on login and registration, CSRF protection on all forms, security headers (X-Content-Type-Options, X-Frame-Options), POST-only logout
 - Patagonia photo slideshow on the home page
 - Word of the Day — a daily-rotating English vocabulary card on the home page, selected from a curated list using a date-based index (no database required)
 - Feature flags — course visibility controlled by simple boolean flags in `routes.py` (e.g. `SHOW_C_LEVELS` toggles C1 and C2 courses on when ready to launch)
@@ -55,7 +55,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-**4. Create a `.env` file** in the project root with a secret key:
+**4. Create a `.env` file** in the project root with a secret key (the app will refuse to start without this):
 ```
 SECRET_KEY=your-secret-key-here
 ```
