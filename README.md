@@ -33,6 +33,7 @@ Built as a Python learning project, working through Flask fundamentals step by s
 | Authentication | Flask-Login + Werkzeug password hashing |
 | Forms | Flask-WTF |
 | Rate limiting | Flask-Limiter |
+| Production server | Gunicorn |
 | Environment variables | python-dotenv |
 | Front end | Custom CSS |
 
@@ -76,13 +77,23 @@ To stop the server press `Ctrl+C` in your terminal. If the port gets stuck in us
 kill $(lsof -ti:5000)
 ```
 
+### Running in production
+
+For production, use Gunicorn instead of Flask's built-in server:
+```
+gunicorn wsgi:app
+```
+
+This serves the app with multiple workers for better performance and reliability. Hosting platforms like Render or Railway will use this command as their start command.
+
 ---
 
 ## Project structure
 
 ```
 language_school/
-├── run.py                  ← entry point
+├── run.py                  ← development entry point
+├── wsgi.py                 ← production entry point (Gunicorn)
 ├── .env                    ← secret key (not committed)
 ├── requirements.txt
 └── app/
