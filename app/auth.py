@@ -7,7 +7,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, limiter
 from app.models import User, Enrolment
-from app.forms import RegistrationForm, LoginForm, EnrolmentForm
+from app.forms import RegistrationForm, LoginForm, EnrolmentForm, EditProfileForm
 from app.translations import TRANSLATIONS
 from app.routes import SHOW_C_LEVELS
 
@@ -148,3 +148,36 @@ def enrol():
         return redirect(url_for("main.dashboard", lang=lang))
 
     return render_template("enrol.html", form=form, t=TRANSLATIONS[lang], lang=lang)
+
+
+@auth.route("/edit-profile", methods=["GET", "POST"])
+@login_required  # must be logged in to edit your own profile
+def edit_profile():
+    """Let the user update their first name, last name, and email.
+    GET  — display the form pre-filled with current values.
+    POST — validate, check for duplicate email, save changes."""
+    lang = get_lang()
+    t = TRANSLATIONS[lang]
+
+    # Pre-fill the form with the user's current details.
+    # obj=current_user tells WTForms to populate fields from the User object.
+    form = EditProfileForm(obj=current_user)
+
+    if form.validate_on_submit():
+        # If the email has changed, check it's not already taken by someone else
+        new_email = form.email.data
+        if new_email != current_user.email:
+            if User.query.filter_by(email=new_email).first():
+                flash(t["error_email_taken"])
+                return render_template("edit_profile.html", form=form, t=t, lang=lang)
+
+        # Update the user's details in the database
+        current_user.first_name = form.first_name.data
+        current_user.last_name = form.last_name.data
+        current_user.email = new_email
+        db.session.commit()
+
+        flash(t["edit_profile_success"], "success")
+        return redirect(url_for("main.dashboard", lang=lang))
+
+    return render_template("edit_profile.html", form=form, t=t, lang=lang)

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-wrapper">
+    <div class="page-content">
+        <h1>{{ t["edit_profile_title"] }}</h1>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="card" style="margin-top:1.5rem">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <p>
+                    <label>{{ t["edit_profile_first_name"] }}</label>
+                    {{ form.first_name(size=40) }}
+                    {% for error in form.first_name.errors %}<span class="field-error">{{ t.get(error, error) }}</span>{% endfor %}
+                </p>
+                <p>
+                    <label>{{ t["edit_profile_last_name"] }}</label>
+                    {{ form.last_name(size=40) }}
+                    {% for error in form.last_name.errors %}<span class="field-error">{{ t.get(error, error) }}</span>{% endfor %}
+                </p>
+                <p>
+                    <label>{{ t["edit_profile_email"] }}</label>
+                    {{ form.email(size=40) }}
+                    {% for error in form.email.errors %}<span class="field-error">{{ t.get(error, error) }}</span>{% endfor %}
+                </p>
+                <button type="submit">{{ t["edit_profile_submit"] }}</button>
+            </form>
+        </div>
+        <p><a href="{{ url_for('main.dashboard', lang=lang) }}">{{ t["edit_profile_cancel"] }}</a></p>
+    </div>
+</div>
+{% endblock %}

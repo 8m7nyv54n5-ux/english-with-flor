@@ -251,6 +251,16 @@ TRANSLATIONS = {
         "dashboard_not_enrolled": "You are not yet enrolled on a course.",
         "dashboard_enrol_link": "Enrol now",
 
+        # Dashboard — edit profile
+        "edit_profile_title": "Edit Your Details",
+        "edit_profile_first_name": "First Name",
+        "edit_profile_last_name": "Last Name",
+        "edit_profile_email": "Email",
+        "edit_profile_submit": "Save Changes",
+        "edit_profile_success": "Your details have been updated.",
+        "edit_profile_btn": "Edit Details",
+        "edit_profile_cancel": "Cancel",
+
         # Errors
         "error_username_taken": "That username is already taken. Please choose another.",
         "error_email_taken": "An account with that email already exists.",
@@ -511,6 +521,16 @@ TRANSLATIONS = {
         "dashboard_passport": "Número de pasaporte",
         "dashboard_not_enrolled": "Aún no estás inscrito en ningún curso.",
         "dashboard_enrol_link": "Inscríbete ahora",
+
+        # Dashboard — edit profile
+        "edit_profile_title": "Editar tus datos",
+        "edit_profile_first_name": "Nombre",
+        "edit_profile_last_name": "Apellido",
+        "edit_profile_email": "Correo electrónico",
+        "edit_profile_submit": "Guardar cambios",
+        "edit_profile_success": "Tus datos han sido actualizados.",
+        "edit_profile_btn": "Editar datos",
+        "edit_profile_cancel": "Cancelar",
 
         # Errors
         "error_username_taken": "Ese nombre de usuario ya está en uso. Por favor elige otro.",

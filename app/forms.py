@@ -76,6 +76,22 @@ class EnrolmentForm(FlaskForm):
     submit = SubmitField("Enrol")
 
 
+class EditProfileForm(FlaskForm):
+    """Form for updating personal details from the dashboard.
+    Same validators as RegistrationForm but without username or password —
+    those are handled separately."""
+    first_name = StringField("First Name", validators=[
+                     DataRequired(message="error_field_required"),
+                     Length(min=2, max=80, message="error_name_length")])
+    last_name  = StringField("Last Name",  validators=[
+                     DataRequired(message="error_field_required"),
+                     Length(min=2, max=80, message="error_name_length")])
+    email      = StringField("Email",      validators=[
+                     DataRequired(message="error_field_required"),
+                     Email(message="error_invalid_email")])
+    submit     = SubmitField("Save")
+
+
 class ContactForm(FlaskForm):
     """Form for sending a message via the contact page."""
     name    = StringField("Name", validators=[
