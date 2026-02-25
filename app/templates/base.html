@@ -20,7 +20,10 @@
 
                 {% if current_user.is_authenticated %}
                     <a href="{{ url_for('main.dashboard', lang=lang) }}">{{ t["nav_dashboard"] }}</a>
-                    <a href="{{ url_for('auth.logout', lang=lang) }}" class="btn btn-outline" style="padding:0.4rem 1rem">{{ t["logout"] }}</a>
+                    <form action="{{ url_for('auth.logout', lang=lang) }}" method="POST" class="logout-form">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <button type="submit" class="btn btn-outline" style="padding:0.4rem 1rem">{{ t["logout"] }}</button>
+                    </form>
                 {% else %}
                     <a href="{{ url_for('auth.login', lang=lang) }}">{{ t["nav_login"] }}</a>
                     <a href="{{ url_for('auth.register', lang=lang) }}" class="btn btn-accent" style="padding:0.4rem 1rem">{{ t["nav_register"] }}</a>

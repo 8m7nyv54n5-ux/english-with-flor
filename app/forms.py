@@ -5,7 +5,7 @@
 
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SelectField, SubmitField
-from wtforms.validators import DataRequired, Email, Length, EqualTo
+from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp, Optional
 
 
 class RegistrationForm(FlaskForm):
@@ -57,11 +57,20 @@ class EnrolmentForm(FlaskForm):
                       ("c2", "C2 English"),
                   ], validators=[DataRequired()])
 
-    # Argentina fields — required only if user_type is "argentina"
-    cuit_cuil   = StringField("CUIT / CUIL")
-    dni         = StringField("DNI")
+    # Argentina fields — required only if user_type is "argentina".
+    # Optional() lets the field pass when blank (the route handles required-ness).
+    # CUIT/CUIL format: 2 digits, dash, 8 digits, dash, 1 digit (e.g. 20-12345678-9)
+    cuit_cuil   = StringField("CUIT / CUIL", validators=[
+                      Optional(),
+                      Regexp(r"^\d{2}-\d{8}-\d$", message="error_invalid_cuit")])
+    # DNI is 7 or 8 digits
+    dni         = StringField("DNI", validators=[
+                      Optional(),
+                      Regexp(r"^\d{7,8}$", message="error_invalid_dni")])
 
     # International fields — required only if user_type is "international"
-    passport_no = StringField("Passport Number")
+    passport_no = StringField("Passport Number", validators=[
+                      Optional(),
+                      Length(max=30, message="error_passport_length")])
 
     submit = SubmitField("Enrol")

@@ -91,6 +91,9 @@ nav .container {
 }
 .nav-links a:hover { background: var(--pink); }
 
+/* Logout form sits inline inside the nav — remove default form spacing */
+.logout-form { margin: 0; padding: 0; display: inline-flex; }
+
 /* Buttons */
 .btn {
     display: inline-flex;

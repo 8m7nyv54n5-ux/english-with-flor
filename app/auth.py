@@ -9,6 +9,7 @@ from app import db, limiter
 from app.models import User, Enrolment
 from app.forms import RegistrationForm, LoginForm, EnrolmentForm
 from app.translations import TRANSLATIONS
+from app.routes import SHOW_C_LEVELS
 
 # Create the "auth" blueprint — registered with the app in __init__.py
 auth = Blueprint("auth", __name__)
@@ -24,6 +25,7 @@ def get_lang():
 
 
 @auth.route("/register", methods=["GET", "POST"])
+@limiter.limit("10 per minute")  # prevent mass fake-account creation
 def register():
     """Handle new user registration.
     GET  — display the blank registration form.
@@ -41,8 +43,10 @@ def register():
             flash(TRANSLATIONS[lang]["error_email_taken"])
             return render_template("register.html", form=form, t=TRANSLATIONS[lang], lang=lang)
 
-        # Hash the password — never store plain text
-        hashed_password = generate_password_hash(form.password.data)
+        # Hash the password — never store plain text.
+        # Specifying "scrypt" explicitly so a future Werkzeug update can't
+        # silently switch to a weaker default algorithm.
+        hashed_password = generate_password_hash(form.password.data, method="scrypt")
 
         # Create the new User object and save it to the database
         user = User(
@@ -86,10 +90,12 @@ def login():
     return render_template("login.html", form=form, t=TRANSLATIONS[lang], lang=lang)
 
 
-@auth.route("/logout")
+@auth.route("/logout", methods=["POST"])
 @login_required  # must be logged in to log out
 def logout():
-    """Log the current user out and redirect to the home page."""
+    """Log the current user out and redirect to the home page.
+    Uses POST (not GET) so that a malicious site can't log a user out
+    by tricking their browser into making a GET request (e.g. via an <img> tag)."""
     lang = get_lang()
     logout_user()
     return redirect(url_for("main.home", lang=lang))
@@ -103,6 +109,16 @@ def enrol():
     POST — validate, save the enrolment, and redirect to dashboard."""
     lang = get_lang()
     form = EnrolmentForm()
+
+    # Only show C1/C2 in the dropdown when the feature flag is on.
+    # This keeps the enrolment form in sync with the courses page.
+    allowed_courses = [
+        ("a1", "A1 English"), ("a2", "A2 English"),
+        ("b1", "B1 English"), ("b2", "B2 English"),
+    ]
+    if SHOW_C_LEVELS:
+        allowed_courses += [("c1", "C1 English"), ("c2", "C2 English")]
+    form.course.choices = allowed_courses
 
     if form.validate_on_submit():
         user_type = form.user_type.data

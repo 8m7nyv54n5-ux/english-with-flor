@@ -9,6 +9,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
+from flask_wtf.csrf import CSRFProtect
 from dotenv import load_dotenv
 
 # Load environment variables from the .env file into os.environ
@@ -19,6 +20,7 @@ load_dotenv()
 # They get properly initialised inside create_app() via .init_app().
 db = SQLAlchemy()           # handles all database operations
 login_manager = LoginManager()  # tracks who is logged in
+csrf = CSRFProtect()        # makes csrf_token() available in all templates
 limiter = Limiter(key_func=get_remote_address)  # rate-limits routes by IP address
 
 
@@ -26,14 +28,20 @@ def create_app():
     """Create and configure the Flask application."""
     app = Flask(__name__)
 
-    # SECRET_KEY is used to sign session cookies — keep it secret in production
-    app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev-only-change-in-production")
+    # SECRET_KEY is used to sign session cookies — keep it secret in production.
+    # If the key is missing the app refuses to start, so you notice immediately
+    # rather than silently running with a guessable fallback.
+    secret_key = os.environ.get("SECRET_KEY")
+    if not secret_key:
+        raise RuntimeError("SECRET_KEY is not set — add it to your .env file")
+    app.config["SECRET_KEY"] = secret_key
     # Tell SQLAlchemy to use a SQLite file called school.db inside the instance/ folder
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///school.db"
 
     # Bind the extensions to this specific app instance
     db.init_app(app)
     login_manager.init_app(app)
+    csrf.init_app(app)
     limiter.init_app(app)
 
     # If a user tries to visit a @login_required page, redirect them to the login route
@@ -49,6 +57,16 @@ def create_app():
     from app import models
     with app.app_context():
         db.create_all()
+
+    # Add security headers to every response.
+    # These tell the browser to enable built-in protections.
+    @app.after_request
+    def set_security_headers(response):
+        # Prevents the browser guessing the content type (stops MIME-sniffing attacks)
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        # Stops the site being loaded inside an <iframe> on another domain (clickjacking)
+        response.headers["X-Frame-Options"] = "SAMEORIGIN"
+        return response
 
     return app
 
