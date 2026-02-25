@@ -12,7 +12,7 @@ Built as a Python learning project, working through Flask fundamentals step by s
 - Course pages — individual CEFR levels: A1, A2, B1, B2 (live), C1 and C2 (coming soon)
 - User registration and login with hashed passwords (scrypt)
 - Course enrolment form — handles Argentine (CUIT/CUIL, DNI) and international (passport) students, with format validation on identity fields
-- User dashboard showing enrolment details, with the ability to edit personal details and change password
+- User dashboard showing enrolment details, with the ability to edit personal details, change password, and delete account
 - Security hardening — rate limiting on login and registration, CSRF protection on all forms, security headers (X-Content-Type-Options, X-Frame-Options), POST-only logout
 - Patagonia photo slideshow on the home page
 - Word of the Day — a daily-rotating English vocabulary card on the home page, selected from a curated list using a date-based index (no database required)
@@ -89,7 +89,7 @@ language_school/
     ├── __init__.py         ← app factory
     ├── models.py           ← User and Enrolment database models
     ├── routes.py           ← main blueprint (public pages)
-    ├── auth.py             ← auth blueprint (register, login, enrol, edit profile, change password)
+    ├── auth.py             ← auth blueprint (register, login, enrol, edit profile, change password, delete account)
     ├── forms.py            ← WTForms form classes
     ├── translations.py     ← EN/ES text dictionary
     ├── words.py            ← curated word list for the Word of the Day feature
@@ -101,7 +101,6 @@ language_school/
 
 ## Planned next steps
 
-- Delete account — GDPR-style option for users to remove their data
 - Password reset via email link
 - Booking flow for level tests — WhatsApp CTA added (placeholder number, swap in real number when ready)
 - Admin view for the school to manage enrolments

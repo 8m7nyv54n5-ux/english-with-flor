@@ -7,7 +7,8 @@ from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, limiter
 from app.models import User, Enrolment
-from app.forms import RegistrationForm, LoginForm, EnrolmentForm, EditProfileForm, ChangePasswordForm
+from app.forms import (RegistrationForm, LoginForm, EnrolmentForm,
+                       EditProfileForm, ChangePasswordForm, DeleteAccountForm)
 from app.translations import TRANSLATIONS
 from app.routes import SHOW_C_LEVELS
 
@@ -209,3 +210,36 @@ def change_password():
         return redirect(url_for("main.dashboard", lang=lang))
 
     return render_template("change_password.html", form=form, t=t, lang=lang)
+
+
+@auth.route("/delete-account", methods=["GET", "POST"])
+@login_required  # must be logged in to delete your own account
+def delete_account():
+    """Let the user permanently delete their account.
+    Requires password confirmation to prevent accidental deletion.
+    Deletes the enrolment first (foreign key) then the user record."""
+    lang = get_lang()
+    t = TRANSLATIONS[lang]
+    form = DeleteAccountForm()
+
+    if form.validate_on_submit():
+        # Verify the password before allowing deletion
+        if not check_password_hash(current_user.password_hash, form.password.data):
+            flash(t["error_wrong_password"])
+            return render_template("delete_account.html", form=form, t=t, lang=lang)
+
+        # Delete the enrolment first (foreign key references the user)
+        if current_user.enrolment:
+            db.session.delete(current_user.enrolment)
+
+        # Delete the user record itself
+        db.session.delete(current_user)
+        db.session.commit()
+
+        # Log the user out — their session is no longer valid
+        logout_user()
+
+        flash(t["delete_account_success"], "success")
+        return redirect(url_for("main.home", lang=lang))
+
+    return render_template("delete_account.html", form=form, t=t, lang=lang)

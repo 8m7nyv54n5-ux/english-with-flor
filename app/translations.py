@@ -272,6 +272,15 @@ TRANSLATIONS = {
         "change_pw_cancel": "Cancel",
         "error_wrong_password": "Current password is incorrect.",
 
+        # Dashboard — delete account
+        "delete_account_title": "Delete Your Account",
+        "delete_account_warning": "This action is permanent. Your account, personal details, and enrolment will be deleted immediately. This cannot be undone.",
+        "delete_account_password": "Enter your password to confirm",
+        "delete_account_submit": "Delete My Account",
+        "delete_account_success": "Your account has been deleted.",
+        "delete_account_btn": "Delete Account",
+        "delete_account_cancel": "Cancel",
+
         # Errors
         "error_username_taken": "That username is already taken. Please choose another.",
         "error_email_taken": "An account with that email already exists.",
@@ -553,6 +562,15 @@ TRANSLATIONS = {
         "change_pw_btn": "Cambiar contraseña",
         "change_pw_cancel": "Cancelar",
         "error_wrong_password": "La contraseña actual es incorrecta.",
+
+        # Dashboard — delete account
+        "delete_account_title": "Eliminar tu cuenta",
+        "delete_account_warning": "Esta acción es permanente. Tu cuenta, datos personales e inscripción serán eliminados de inmediato. No se puede deshacer.",
+        "delete_account_password": "Introduce tu contraseña para confirmar",
+        "delete_account_submit": "Eliminar mi cuenta",
+        "delete_account_success": "Tu cuenta ha sido eliminada.",
+        "delete_account_btn": "Eliminar cuenta",
+        "delete_account_cancel": "Cancelar",
 
         # Errors
         "error_username_taken": "Ese nombre de usuario ya está en uso. Por favor elige otro.",

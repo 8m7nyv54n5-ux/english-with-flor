@@ -127,6 +127,32 @@ nav .container {
 .btn-pink { background: var(--pink); color: var(--dark); }
 .btn-pink:hover { background: #f5a5c4; color: var(--dark); }
 
+.btn-danger {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.6rem 1.4rem;
+    background: #d33;
+    color: #fff;
+    border: none;
+    border-radius: 100px;
+    font-family: var(--sans);
+    font-size: 0.88rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: background 0.25s, transform 0.15s;
+}
+.btn-danger:hover { background: #b22; transform: translateY(-1px); }
+
+.delete-warning {
+    background: #fff3f3;
+    border-left: 4px solid #d33;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    color: #611;
+    line-height: 1.5;
+}
+
 /* Lang toggle */
 .lang-toggle {
     background: var(--blue) !important;

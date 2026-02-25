@@ -106,6 +106,14 @@ class ChangePasswordForm(FlaskForm):
     submit           = SubmitField("Change Password")
 
 
+class DeleteAccountForm(FlaskForm):
+    """Form for confirming account deletion.
+    Requires the user's password to prevent accidental or unauthorised deletion."""
+    password = PasswordField("Password", validators=[
+                   DataRequired(message="error_field_required")])
+    submit   = SubmitField("Delete My Account")
+
+
 class ContactForm(FlaskForm):
     """Form for sending a message via the contact page."""
     name    = StringField("Name", validators=[

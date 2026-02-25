@@ -31,6 +31,10 @@
         {% else %}
             <p>{{ t["dashboard_not_enrolled"] }} <a href="{{ url_for('auth.enrol', lang=lang) }}">{{ t["dashboard_enrol_link"] }}</a></p>
         {% endif %}
+
+        <div style="margin-top:2.5rem">
+            <a href="{{ url_for('auth.delete_account', lang=lang) }}" style="color:#d33; font-size:0.88rem">{{ t["delete_account_btn"] }}</a>
+        </div>
     </div>
 </div>
 {% endblock %}
