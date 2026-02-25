@@ -100,6 +100,6 @@ language_school/
 ## Planned next steps
 
 - Contact form
-- Booking flow for level tests
+- Booking flow for level tests — WhatsApp CTA added (placeholder number, swap in real number when ready)
 - Admin view for the school to manage enrolments
 - Deployment
