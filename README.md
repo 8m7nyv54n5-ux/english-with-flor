@@ -9,14 +9,14 @@ Built as a Python learning project, working through Flask fundamentals step by s
 ## Features
 
 - Bilingual UI — full English and Spanish support via a `?lang=` URL toggle
-- Course pages — Beginner (A1–A2), Intermediate (B1–B2), and Advanced (C1–C2)
+- Course pages — individual CEFR levels: A1, A2, B1, B2 (live), C1 and C2 (coming soon)
 - User registration and login with hashed passwords
 - Course enrolment form — handles Argentine (CUIT/CUIL, DNI) and international (passport) students
 - User dashboard showing enrolment details
 - Login rate limiting to block brute-force attempts
 - Patagonia photo slideshow on the home page
 - Word of the Day — a daily-rotating English vocabulary card on the home page, selected from a curated list using a date-based index (no database required)
-- Feature flags — course visibility controlled by simple boolean flags in `routes.py` (e.g. Advanced course toggled off until ready to launch)
+- Feature flags — course visibility controlled by simple boolean flags in `routes.py` (e.g. `SHOW_C_LEVELS` toggles C1 and C2 courses on when ready to launch)
 
 ---
 
