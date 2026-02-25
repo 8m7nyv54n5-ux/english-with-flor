@@ -208,7 +208,8 @@ label { display: block; font-weight: 500; margin-bottom: 0.3rem; font-size: 0.9r
 input[type="text"],
 input[type="email"],
 input[type="password"],
-select {
+select,
+textarea {
     width: 100%;
     max-width: 420px;
     padding: 0.6rem 0.85rem;
@@ -220,7 +221,8 @@ select {
     color: var(--dark);
     transition: border-color 0.2s;
 }
-input:focus, select:focus { outline: none; border-color: var(--blue); }
+input:focus, select:focus, textarea:focus { outline: none; border-color: var(--blue); }
+textarea { resize: vertical; }
 
 input[type="submit"], button[type="submit"] {
     display: inline-flex;
@@ -246,6 +248,10 @@ input[type="submit"]:hover, button[type="submit"]:hover { background: #aaee55; t
     border-radius: 10px;
     padding: 0.75rem 1rem;
     margin-bottom: 1.25rem;
+}
+.flash-success {
+    background: #e0ffe0;
+    border-left: 4px solid #22a822;
     color: #cc0000;
     font-weight: 500;
     font-size: 0.9rem;

@@ -4,7 +4,7 @@
 # that must pass before the form is considered valid.
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SelectField, SubmitField
+from wtforms import StringField, PasswordField, SelectField, SubmitField, TextAreaField
 from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp, Optional
 
 
@@ -74,3 +74,17 @@ class EnrolmentForm(FlaskForm):
                       Length(max=30, message="error_passport_length")])
 
     submit = SubmitField("Enrol")
+
+
+class ContactForm(FlaskForm):
+    """Form for sending a message via the contact page."""
+    name    = StringField("Name", validators=[
+                  DataRequired(message="error_field_required"),
+                  Length(min=2, max=160, message="error_name_length")])
+    email   = StringField("Email", validators=[
+                  DataRequired(message="error_field_required"),
+                  Email(message="error_invalid_email")])
+    message = TextAreaField("Message", validators=[
+                  DataRequired(message="error_field_required"),
+                  Length(min=10, max=2000, message="error_message_length")])
+    submit  = SubmitField("Send")

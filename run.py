@@ -9,6 +9,9 @@ from app import create_app
 app = create_app()
 
 if __name__ == "__main__":
-    # debug=True means the server restarts automatically when you save a file,
-    # and shows helpful error pages. Never use debug=True in production.
-    app.run(debug=True)
+    # FLASK_DEBUG is read from .env — set to True for development, False (or omit) for production.
+    # When True the server restarts automatically when you save a file,
+    # and shows helpful error pages in the browser.
+    import os
+    debug = os.environ.get("FLASK_DEBUG", "False").lower() == "true"
+    app.run(debug=debug)

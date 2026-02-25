@@ -4,9 +4,57 @@
 <div class="page-wrapper">
     <div class="page-content">
         <h1>{{ t["contact_title"] }}</h1>
+
         <div class="card" style="margin-top:1.5rem">
             <p><strong>{{ t["contact_email"] }}:</strong> hello@englishwithflor.com</p>
             <p><strong>{{ t["contact_phone"] }}:</strong> +54 11 1234 5678</p>
+        </div>
+
+        <!-- Flash messages (e.g. "Thanks for your message!") -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <!-- Contact form -->
+        <form method="POST" action="{{ url_for('main.contact', lang=lang) }}" style="margin-top:2rem">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+            <p>
+                <label>{{ t["contact_name_label"] }}</label>
+                <input type="text" name="name" value="{{ form.name.data or '' }}">
+                {% for error in form.name.errors %}
+                    <span class="field-error">{{ t.get(error, error) }}</span>
+                {% endfor %}
+            </p>
+
+            <p>
+                <label>{{ t["contact_email_label"] }}</label>
+                <input type="email" name="email" value="{{ form.email.data or '' }}">
+                {% for error in form.email.errors %}
+                    <span class="field-error">{{ t.get(error, error) }}</span>
+                {% endfor %}
+            </p>
+
+            <p>
+                <label>{{ t["contact_message_label"] }}</label>
+                <textarea name="message" rows="6">{{ form.message.data or '' }}</textarea>
+                {% for error in form.message.errors %}
+                    <span class="field-error">{{ t.get(error, error) }}</span>
+                {% endfor %}
+            </p>
+
+            <button type="submit" class="btn btn-accent">{{ t["contact_submit"] }}</button>
+        </form>
+
+        <!-- WhatsApp CTA -->
+        <div style="text-align:center; margin-top:2rem;">
+            <a href="{{ t['contact_whatsapp_url'] }}" target="_blank" rel="noopener" class="btn btn-outline">
+                {{ t["contact_whatsapp_btn"] }}
+            </a>
         </div>
     </div>
 </div>

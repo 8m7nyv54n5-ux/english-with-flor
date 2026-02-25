@@ -36,3 +36,12 @@ class Enrolment(db.Model):
 
     # Back-reference to the User who owns this enrolment
     user = db.relationship("User", back_populates="enrolment")
+
+
+class ContactMessage(db.Model):
+    """Stores messages submitted through the contact form."""
+    id         = db.Column(db.Integer, primary_key=True)
+    name       = db.Column(db.String(160), nullable=False)   # sender's name
+    email      = db.Column(db.String(150), nullable=False)   # sender's email
+    message    = db.Column(db.Text, nullable=False)           # the message body
+    created_at = db.Column(db.DateTime, server_default=db.func.now())  # timestamp

@@ -196,6 +196,14 @@ TRANSLATIONS = {
         "contact_title": "Contact Us",
         "contact_email": "Email",
         "contact_phone": "Phone",
+        "contact_name_label": "Your Name",
+        "contact_email_label": "Your Email",
+        "contact_message_label": "Your Message",
+        "contact_submit": "Send Message",
+        "contact_success": "Thanks for your message! We'll get back to you soon.",
+        "contact_whatsapp_btn": "Or chat with Flor on WhatsApp →",
+        "contact_whatsapp_url": "https://wa.me/0000000000?text=Hi%20Flor%2C%20I%20sent%20a%20message%20via%20the%20website",
+        "error_message_length": "Message must be between 10 and 2000 characters.",
 
         # Register — page text
         "register_title": "Create an Account",
@@ -448,6 +456,14 @@ TRANSLATIONS = {
         "contact_title": "Contáctanos",
         "contact_email": "Correo electrónico",
         "contact_phone": "Teléfono",
+        "contact_name_label": "Tu nombre",
+        "contact_email_label": "Tu correo electrónico",
+        "contact_message_label": "Tu mensaje",
+        "contact_submit": "Enviar mensaje",
+        "contact_success": "¡Gracias por tu mensaje! Te responderemos pronto.",
+        "contact_whatsapp_btn": "O chatea con Flor por WhatsApp →",
+        "contact_whatsapp_url": "https://wa.me/0000000000?text=Hola%20Flor%2C%20te%20envié%20un%20mensaje%20por%20la%20web",
+        "error_message_length": "El mensaje debe tener entre 10 y 2000 caracteres.",
 
         # Register — page text
         "register_title": "Crear una cuenta",

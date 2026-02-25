@@ -3,9 +3,12 @@
 # A blueprint is Flask's way of grouping related routes together.
 # The auth routes (login, register, etc.) live separately in auth.py.
 
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
 from app.translations import TRANSLATIONS
+from app.forms import ContactForm
+from app.models import ContactMessage
+from app import db
 from datetime import date
 from app.words import WORDS
 
@@ -116,11 +119,26 @@ def about():
     return render_template("about.html", t=TRANSLATIONS[lang], lang=lang)
 
 
-@main.route("/contact")
+@main.route("/contact", methods=["GET", "POST"])
 def contact():
-    """Render the Contact page."""
+    """Render the Contact page. On POST, save the message to the database."""
     lang = get_lang()
-    return render_template("contact.html", t=TRANSLATIONS[lang], lang=lang)
+    t = TRANSLATIONS[lang]
+    form = ContactForm()
+
+    if form.validate_on_submit():
+        # Save the message to the database
+        msg = ContactMessage(
+            name=form.name.data,
+            email=form.email.data,
+            message=form.message.data,
+        )
+        db.session.add(msg)
+        db.session.commit()
+        flash(t["contact_success"], "success")
+        return redirect(url_for("main.contact", lang=lang))
+
+    return render_template("contact.html", t=t, lang=lang, form=form)
 
 
 @main.route("/dashboard")
