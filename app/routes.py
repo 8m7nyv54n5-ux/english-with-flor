@@ -11,8 +11,8 @@ from app.words import WORDS
 
 # Create the "main" blueprint — registered with the app in __init__.py
 main = Blueprint("main", __name__)
-# Feature flag functionality for advanced course
-SHOW_ADVANCED = False
+# Feature flag — set to True when C1 and C2 courses are ready to go live
+SHOW_C_LEVELS = False
 
 def get_lang():
     """Read the ?lang= URL parameter and return a valid language code.
@@ -29,7 +29,7 @@ def home():
     lang = get_lang()
     day_index = date.today().toordinal() % len(WORDS)  # changes daily
     word_of_day = WORDS[day_index]
-    return render_template("home.html", t=TRANSLATIONS[lang], lang=lang, show_advanced=SHOW_ADVANCED, word=word_of_day)
+    return render_template("home.html", t=TRANSLATIONS[lang], lang=lang, show_c_levels=SHOW_C_LEVELS, word=word_of_day)
 
 
 
@@ -37,80 +37,76 @@ def home():
 def courses():
     """Render the courses listing page (shows all three course cards)."""
     lang = get_lang()
-    return render_template("courses.html", t=TRANSLATIONS[lang], lang=lang, show_advanced=SHOW_ADVANCED)
+    return render_template("courses.html", t=TRANSLATIONS[lang], lang=lang, show_c_levels=SHOW_C_LEVELS)
 
 
-@main.route("/courses/beginner")
-def course_beginner():
-    """Render the Beginner course detail page.
-    Builds a course dict from translation keys (beg_ prefix) and passes it
-    to the shared course_detail.html template."""
+def build_course(t, prefix):
+    """Helper that builds a course dict from translation keys using a given prefix.
+    For example, build_course(t, 'a1') pulls all keys starting with 'a1_'.
+    This avoids repeating the same dict structure 6 times."""
+    return {
+        "title":        t[f"{prefix}_title"],
+        "level":        t[f"{prefix}_level"],
+        "tagline":      t[f"{prefix}_tagline"],
+        "who_title":    t[f"{prefix}_who_title"],
+        "who_desc":     t[f"{prefix}_who_desc"],
+        "learn_title":  t[f"{prefix}_learn_title"],
+        "learn_items":  t[f"{prefix}_learn_items"],
+        "format_title": t[f"{prefix}_format_title"],
+        "format_desc":  t[f"{prefix}_format_desc"],
+        "price_title":  t[f"{prefix}_price_title"],
+        "price_desc":   t[f"{prefix}_price_desc"],
+        "cta":          t[f"{prefix}_cta"],
+        "back":         t[f"{prefix}_back"],
+    }
+
+
+@main.route("/courses/a1")
+def course_a1():
+    """Render the A1 course detail page."""
     lang = get_lang()
     t = TRANSLATIONS[lang]
-    course = {
-        "title":        t["beg_title"],
-        "level":        t["beg_level"],
-        "tagline":      t["beg_tagline"],
-        "who_title":    t["beg_who_title"],
-        "who_desc":     t["beg_who_desc"],
-        "learn_title":  t["beg_learn_title"],
-        "learn_items":  t["beg_learn_items"],
-        "format_title": t["beg_format_title"],
-        "format_desc":  t["beg_format_desc"],
-        "price_title":  t["beg_price_title"],
-        "price_desc":   t["beg_price_desc"],
-        "cta":          t["beg_cta"],
-        "back":         t["beg_back"],
-    }
-    return render_template("course_detail.html", t=t, lang=lang, course=course)
+    return render_template("course_detail.html", t=t, lang=lang, course=build_course(t, "a1"))
 
 
-@main.route("/courses/intermediate")
-def course_intermediate():
-    """Render the Intermediate course detail page.
-    Builds a course dict from translation keys (int_ prefix)."""
+@main.route("/courses/a2")
+def course_a2():
+    """Render the A2 course detail page."""
     lang = get_lang()
     t = TRANSLATIONS[lang]
-    course = {
-        "title":        t["int_title"],
-        "level":        t["int_level"],
-        "tagline":      t["int_tagline"],
-        "who_title":    t["int_who_title"],
-        "who_desc":     t["int_who_desc"],
-        "learn_title":  t["int_learn_title"],
-        "learn_items":  t["int_learn_items"],
-        "format_title": t["int_format_title"],
-        "format_desc":  t["int_format_desc"],
-        "price_title":  t["int_price_title"],
-        "price_desc":   t["int_price_desc"],
-        "cta":          t["int_cta"],
-        "back":         t["int_back"],
-    }
-    return render_template("course_detail.html", t=t, lang=lang, course=course)
+    return render_template("course_detail.html", t=t, lang=lang, course=build_course(t, "a2"))
 
 
-@main.route("/courses/advanced")
-def course_advanced():
-    """Render the Advanced course detail page.
-    Builds a course dict from translation keys (adv_ prefix)."""
+@main.route("/courses/b1")
+def course_b1():
+    """Render the B1 course detail page."""
     lang = get_lang()
     t = TRANSLATIONS[lang]
-    course = {
-        "title":        t["adv_title"],
-        "level":        t["adv_level"],
-        "tagline":      t["adv_tagline"],
-        "who_title":    t["adv_who_title"],
-        "who_desc":     t["adv_who_desc"],
-        "learn_title":  t["adv_learn_title"],
-        "learn_items":  t["adv_learn_items"],
-        "format_title": t["adv_format_title"],
-        "format_desc":  t["adv_format_desc"],
-        "price_title":  t["adv_price_title"],
-        "price_desc":   t["adv_price_desc"],
-        "cta":          t["adv_cta"],
-        "back":         t["adv_back"],
-    }
-    return render_template("course_detail.html", t=t, lang=lang, course=course)
+    return render_template("course_detail.html", t=t, lang=lang, course=build_course(t, "b1"))
+
+
+@main.route("/courses/b2")
+def course_b2():
+    """Render the B2 course detail page."""
+    lang = get_lang()
+    t = TRANSLATIONS[lang]
+    return render_template("course_detail.html", t=t, lang=lang, course=build_course(t, "b2"))
+
+
+@main.route("/courses/c1")
+def course_c1():
+    """Render the C1 course detail page."""
+    lang = get_lang()
+    t = TRANSLATIONS[lang]
+    return render_template("course_detail.html", t=t, lang=lang, course=build_course(t, "c1"))
+
+
+@main.route("/courses/c2")
+def course_c2():
+    """Render the C2 course detail page."""
+    lang = get_lang()
+    t = TRANSLATIONS[lang]
+    return render_template("course_detail.html", t=t, lang=lang, course=build_course(t, "c2"))
 
 
 @main.route("/about")

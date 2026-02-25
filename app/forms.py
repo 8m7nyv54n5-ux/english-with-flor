@@ -49,7 +49,12 @@ class EnrolmentForm(FlaskForm):
                       ("international", "International student")
                   ], validators=[DataRequired()])
     course      = SelectField("Course", choices=[
-                      ("english_all_levels", "English for All Levels")
+                      ("a1", "A1 English"),
+                      ("a2", "A2 English"),
+                      ("b1", "B1 English"),
+                      ("b2", "B2 English"),
+                      ("c1", "C1 English"),
+                      ("c2", "C2 English"),
                   ], validators=[DataRequired()])
 
     # Argentina fields — required only if user_type is "argentina"

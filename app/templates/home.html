@@ -100,24 +100,42 @@
                 <p class="section-desc">{{ t["course_desc"] }}</p>
             </div>
             <div class="program-grid">
-                <a href="{{ url_for('main.course_beginner', lang=lang) }}" class="program-card reveal" style="transition-delay:0.05s">
+                <a href="{{ url_for('main.course_a1', lang=lang) }}" class="program-card reveal" style="transition-delay:0.05s">
                     <div class="program-icon">🌱</div>
-                    <h3>{{ t["beg_title"] }}</h3>
-                    <p>{{ t["beg_tagline"] }}</p>
-                    <span class="program-level">{{ t["beg_level"] }}</span>
+                    <h3>{{ t["a1_title"] }}</h3>
+                    <p>{{ t["a1_tagline"] }}</p>
+                    <span class="program-level">{{ t["a1_level"] }}</span>
                 </a>
-                <a href="{{ url_for('main.course_intermediate', lang=lang) }}" class="program-card reveal" style="transition-delay:0.15s">
+                <a href="{{ url_for('main.course_a2', lang=lang) }}" class="program-card reveal" style="transition-delay:0.10s">
+                    <div class="program-icon">🗣️</div>
+                    <h3>{{ t["a2_title"] }}</h3>
+                    <p>{{ t["a2_tagline"] }}</p>
+                    <span class="program-level">{{ t["a2_level"] }}</span>
+                </a>
+                <a href="{{ url_for('main.course_b1', lang=lang) }}" class="program-card reveal" style="transition-delay:0.15s">
                     <div class="program-icon">💬</div>
-                    <h3>{{ t["int_title"] }}</h3>
-                    <p>{{ t["int_tagline"] }}</p>
-                    <span class="program-level">{{ t["int_level"] }}</span>
+                    <h3>{{ t["b1_title"] }}</h3>
+                    <p>{{ t["b1_tagline"] }}</p>
+                    <span class="program-level">{{ t["b1_level"] }}</span>
                 </a>
-                {% if show_advanced %}
-                <a href="{{ url_for('main.course_advanced', lang=lang) }}" class="program-card reveal" style="transition-delay:0.25s">
+                <a href="{{ url_for('main.course_b2', lang=lang) }}" class="program-card reveal" style="transition-delay:0.20s">
+                    <div class="program-icon">⚡</div>
+                    <h3>{{ t["b2_title"] }}</h3>
+                    <p>{{ t["b2_tagline"] }}</p>
+                    <span class="program-level">{{ t["b2_level"] }}</span>
+                </a>
+                {% if show_c_levels %}
+                <a href="{{ url_for('main.course_c1', lang=lang) }}" class="program-card reveal" style="transition-delay:0.25s">
                     <div class="program-icon">🎯</div>
-                    <h3>{{ t["adv_title"] }}</h3>
-                    <p>{{ t["adv_tagline"] }}</p>
-                    <span class="program-level">{{ t["adv_level"] }}</span>
+                    <h3>{{ t["c1_title"] }}</h3>
+                    <p>{{ t["c1_tagline"] }}</p>
+                    <span class="program-level">{{ t["c1_level"] }}</span>
+                </a>
+                <a href="{{ url_for('main.course_c2', lang=lang) }}" class="program-card reveal" style="transition-delay:0.30s">
+                    <div class="program-icon">🏆</div>
+                    <h3>{{ t["c2_title"] }}</h3>
+                    <p>{{ t["c2_tagline"] }}</p>
+                    <span class="program-level">{{ t["c2_level"] }}</span>
                 </a>
                 {% endif %}
             </div>

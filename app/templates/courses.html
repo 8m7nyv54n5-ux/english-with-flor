@@ -9,28 +9,49 @@
         <div class="courses-grid">
 
             <div class="card course-card">
-                <span class="level-badge">A1 – A2</span>
-                <h2>{{ t["beg_title"] }}</h2>
-                <p>{{ t["beg_tagline"] }}</p>
-                <a href="{{ url_for('main.course_beginner', lang=lang) }}" class="btn btn-outline">{{ t["courses_view_btn"] }}</a>
+                <span class="level-badge">A1</span>
+                <h2>{{ t["a1_title"] }}</h2>
+                <p>{{ t["a1_tagline"] }}</p>
+                <a href="{{ url_for('main.course_a1', lang=lang) }}" class="btn btn-outline">{{ t["courses_view_btn"] }}</a>
             </div>
 
             <div class="card course-card">
-                <span class="level-badge level-badge--blue">B1 – B2</span>
-                <h2>{{ t["int_title"] }}</h2>
-                <p>{{ t["int_tagline"] }}</p>
-                <a href="{{ url_for('main.course_intermediate', lang=lang) }}" class="btn btn-outline">{{ t["courses_view_btn"] }}</a>
+                <span class="level-badge">A2</span>
+                <h2>{{ t["a2_title"] }}</h2>
+                <p>{{ t["a2_tagline"] }}</p>
+                <a href="{{ url_for('main.course_a2', lang=lang) }}" class="btn btn-outline">{{ t["courses_view_btn"] }}</a>
             </div>
-            
-            {% if show_advanced %}
+
             <div class="card course-card">
-                <span class="level-badge level-badge--lime">C1 – C2</span>
-                <h2>{{ t["adv_title"] }}</h2>
-                <p>{{ t["adv_tagline"] }}</p>
-                <a href="{{ url_for('main.course_advanced', lang=lang) }}" class="btn btn-outline">{{ t["courses_view_btn"] }}</a>
+                <span class="level-badge level-badge--blue">B1</span>
+                <h2>{{ t["b1_title"] }}</h2>
+                <p>{{ t["b1_tagline"] }}</p>
+                <a href="{{ url_for('main.course_b1', lang=lang) }}" class="btn btn-outline">{{ t["courses_view_btn"] }}</a>
+            </div>
+
+            <div class="card course-card">
+                <span class="level-badge level-badge--blue">B2</span>
+                <h2>{{ t["b2_title"] }}</h2>
+                <p>{{ t["b2_tagline"] }}</p>
+                <a href="{{ url_for('main.course_b2', lang=lang) }}" class="btn btn-outline">{{ t["courses_view_btn"] }}</a>
+            </div>
+
+            {% if show_c_levels %}
+            <div class="card course-card">
+                <span class="level-badge level-badge--lime">C1</span>
+                <h2>{{ t["c1_title"] }}</h2>
+                <p>{{ t["c1_tagline"] }}</p>
+                <a href="{{ url_for('main.course_c1', lang=lang) }}" class="btn btn-outline">{{ t["courses_view_btn"] }}</a>
+            </div>
+
+            <div class="card course-card">
+                <span class="level-badge level-badge--lime">C2</span>
+                <h2>{{ t["c2_title"] }}</h2>
+                <p>{{ t["c2_tagline"] }}</p>
+                <a href="{{ url_for('main.course_c2', lang=lang) }}" class="btn btn-outline">{{ t["courses_view_btn"] }}</a>
             </div>
             {% endif %}
-            
+
         </div>
     </div>
 </div>
