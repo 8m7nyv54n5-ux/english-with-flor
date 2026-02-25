@@ -5,11 +5,6 @@
     <div class="page-content">
         <h1>{{ t["contact_title"] }}</h1>
 
-        <div class="card" style="margin-top:1.5rem">
-            <p><strong>{{ t["contact_email"] }}:</strong> hello@englishwithflor.com</p>
-            <p><strong>{{ t["contact_phone"] }}:</strong> +54 11 1234 5678</p>
-        </div>
-
         <!-- Flash messages (e.g. "Thanks for your message!") -->
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
@@ -18,6 +13,11 @@
                 {% endfor %}
             {% endif %}
         {% endwith %}
+
+        <div class="card" style="margin-top:1.5rem">
+            <p><strong>{{ t["contact_email"] }}:</strong> hello@englishwithflor.com</p>
+            <p><strong>{{ t["contact_phone"] }}:</strong> +54 11 1234 5678</p>
+        </div>
 
         <!-- Contact form -->
         <form method="POST" action="{{ url_for('main.contact', lang=lang) }}" style="margin-top:2rem">

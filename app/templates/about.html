@@ -4,7 +4,34 @@
 <div class="page-wrapper">
     <div class="page-content">
         <h1>{{ t["about_title"] }}</h1>
-        <p>{{ t["about_body"] }}</p>
+
+        <!-- Meet Flor -->
+        <div class="card card-about" style="margin-top:1.5rem">
+            <h2>{{ t["about_meet_title"] }}</h2>
+            <p>{{ t["about_meet_body"] }}</p>
+        </div>
+
+        <!-- Teaching approach -->
+        <div class="card card-about">
+            <h2>{{ t["about_approach_title"] }}</h2>
+            <p>{{ t["about_approach_body"] }}</p>
+        </div>
+
+        <!-- Why choose us -->
+        <div class="card card-about">
+            <h2>{{ t["about_why_title"] }}</h2>
+            <ul class="about-list">
+                <li>{{ t["about_why_1"] }}</li>
+                <li>{{ t["about_why_2"] }}</li>
+                <li>{{ t["about_why_3"] }}</li>
+                <li>{{ t["about_why_4"] }}</li>
+            </ul>
+        </div>
+
+        <!-- CTA -->
+        <div style="text-align:center; margin-top:2rem">
+            <a href="{{ url_for('main.contact', lang=lang) }}" class="btn btn-accent">{{ t["about_cta"] }}</a>
+        </div>
     </div>
 </div>
 {% endblock %}

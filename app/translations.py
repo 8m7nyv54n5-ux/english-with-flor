@@ -190,7 +190,16 @@ TRANSLATIONS = {
 
         # About
         "about_title": "About Us",
-        "about_body": "English with Flor has been helping students reach their language goals since 2010. Our qualified teachers make learning fun, practical, and effective.",
+        "about_meet_title": "Meet Flor",
+        "about_meet_body": "Hi! I'm Flor, a qualified English teacher based in Argentina. I've been helping students of all ages and levels improve their English for over 10 years. Whether you're preparing for an exam, need English for work, or simply want to feel more confident speaking — I'm here to help.",
+        "about_approach_title": "My Approach",
+        "about_approach_body": "I believe the best way to learn a language is by using it. My classes focus on real conversation, practical vocabulary, and building confidence from day one. Every student is different, so I adapt each lesson to your goals, your level, and your pace.",
+        "about_why_title": "Why Choose English with Flor?",
+        "about_why_1": "Personalised lessons tailored to your goals and level",
+        "about_why_2": "Flexible scheduling — classes fit around your life",
+        "about_why_3": "A supportive, relaxed environment where mistakes are welcome",
+        "about_why_4": "Experience with students from Argentina and around the world",
+        "about_cta": "Get in Touch",
 
         # Contact
         "contact_title": "Contact Us",
@@ -480,7 +489,16 @@ TRANSLATIONS = {
 
         # About
         "about_title": "Quiénes somos",
-        "about_body": "English with Flor lleva desde 2010 ayudando a los estudiantes a alcanzar sus metas lingüísticas. Nuestros profesores cualificados hacen que aprender sea divertido, práctico y eficaz.",
+        "about_meet_title": "Conocé a Flor",
+        "about_meet_body": "¡Hola! Soy Flor, profesora de inglés con título, radicada en Argentina. Llevo más de 10 años ayudando a estudiantes de todas las edades y niveles a mejorar su inglés. Ya sea que te estés preparando para un examen, necesites inglés para el trabajo, o simplemente quieras sentirte más seguro al hablar — estoy acá para ayudarte.",
+        "about_approach_title": "Mi método",
+        "about_approach_body": "Creo que la mejor manera de aprender un idioma es usándolo. Mis clases se centran en la conversación real, vocabulario práctico y construir confianza desde el primer día. Cada estudiante es diferente, por eso adapto cada clase a tus objetivos, tu nivel y tu ritmo.",
+        "about_why_title": "¿Por qué elegir English with Flor?",
+        "about_why_1": "Clases personalizadas según tus objetivos y nivel",
+        "about_why_2": "Horarios flexibles — las clases se adaptan a tu vida",
+        "about_why_3": "Un ambiente relajado y de apoyo donde los errores son bienvenidos",
+        "about_why_4": "Experiencia con estudiantes de Argentina y de todo el mundo",
+        "about_cta": "Contactanos",
 
         # Contact
         "contact_title": "Contáctanos",
