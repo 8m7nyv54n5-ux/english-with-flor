@@ -48,6 +48,8 @@ TRANSLATIONS = {
         "cta_title": "Book your level test",
         "cta_desc": "Not sure where to start? Take a level test with Flor and find out exactly where you are — and where you could go.",
         "cta_btn": "Book your test now →",
+        # WhatsApp link — replace 0000000000 with Flor's number (international format, no dashes)
+        "whatsapp_url": "https://wa.me/0000000000?text=Hi%20Flor%2C%20I%27d%20like%20to%20book%20a%20level%20test",
 
         # Footer
         "footer_copy": "© 2026 English with Flor. All rights reserved.",
@@ -291,6 +293,8 @@ TRANSLATIONS = {
         "cta_title": "Reserva tu test de nivel",
         "cta_desc": "¿No sabes por dónde empezar? Haz un test de nivel con Flor y descubre exactamente dónde estás — y hasta dónde puedes llegar.",
         "cta_btn": "Reserva tu test ahora →",
+        # WhatsApp link — replace 0000000000 with Flor's number (international format, no dashes)
+        "whatsapp_url": "https://wa.me/0000000000?text=Hola%20Flor%2C%20me%20gustar%C3%ADa%20reservar%20un%20test%20de%20nivel",
 
         # Footer
         "footer_copy": "© 2026 English with Flor. Todos los derechos reservados.",
