@@ -4,13 +4,14 @@
 # the app easier to test and configure for different environments.
 
 import os
-from flask import Flask
+from flask import Flask, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 from flask_wtf.csrf import CSRFProtect
 from dotenv import load_dotenv
+from app.translations import TRANSLATIONS
 
 # Load environment variables from the .env file into os.environ
 # This is how we read the SECRET_KEY without hardcoding it
@@ -67,6 +68,25 @@ def create_app():
         # Stops the site being loaded inside an <iframe> on another domain (clickjacking)
         response.headers["X-Frame-Options"] = "SAMEORIGIN"
         return response
+
+    # Custom error pages — show friendly pages instead of Flask's defaults.
+    # Each handler reads the ?lang= parameter so the error page matches
+    # the language the visitor was browsing in.
+    @app.errorhandler(404)
+    def page_not_found(error):
+        lang = request.args.get("lang", "en")
+        if lang not in TRANSLATIONS:
+            lang = "en"
+        t = TRANSLATIONS[lang]
+        return render_template("404.html", t=t, lang=lang), 404
+
+    @app.errorhandler(500)
+    def internal_server_error(error):
+        lang = request.args.get("lang", "en")
+        if lang not in TRANSLATIONS:
+            lang = "en"
+        t = TRANSLATIONS[lang]
+        return render_template("500.html", t=t, lang=lang), 500
 
     return app
 

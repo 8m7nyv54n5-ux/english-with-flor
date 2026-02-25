@@ -249,6 +249,13 @@ TRANSLATIONS = {
         "error_invalid_credentials": "Invalid username or password. Please try again.",
         "error_argentina_fields": "Please enter both your CUIT/CUIL and DNI.",
         "error_passport_required": "Please enter your passport number.",
+
+        # Error pages
+        "error_404_title": "Page Not Found",
+        "error_404_message": "Sorry, the page you are looking for does not exist or has been moved.",
+        "error_500_title": "Something Went Wrong",
+        "error_500_message": "We are having some technical difficulties. Please try again later.",
+        "error_go_home": "Go to Home Page",
     },
     "es": {
         # Navigation
@@ -495,5 +502,12 @@ TRANSLATIONS = {
         "error_invalid_credentials": "Usuario o contraseña incorrectos. Por favor inténtalo de nuevo.",
         "error_argentina_fields": "Por favor introduce tu CUIT/CUIL y DNI.",
         "error_passport_required": "Por favor introduce tu número de pasaporte.",
+
+        # Error pages
+        "error_404_title": "Página no encontrada",
+        "error_404_message": "Lo sentimos, la página que buscas no existe o ha sido movida.",
+        "error_500_title": "Algo salió mal",
+        "error_500_message": "Estamos teniendo dificultades técnicas. Por favor inténtalo más tarde.",
+        "error_go_home": "Ir a la página de inicio",
     }
 }

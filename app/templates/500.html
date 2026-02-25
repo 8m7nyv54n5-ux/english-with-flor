@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-wrapper">
+    <div class="page-content" style="text-align:center; padding:6rem 1rem;">
+        <h1 style="font-size:5rem; margin-bottom:0.5rem; color:var(--accent);">500</h1>
+        <h2>{{ t["error_500_title"] }}</h2>
+        <p style="margin:1rem 0 2rem; max-width:480px; margin-left:auto; margin-right:auto;">
+            {{ t["error_500_message"] }}
+        </p>
+        <a href="/?lang={{ lang }}" class="btn btn-accent">{{ t["error_go_home"] }}</a>
+    </div>
+</div>
+{% endblock %}
