@@ -16,6 +16,8 @@ Built as a Python learning project, working through Flask fundamentals step by s
 - Security hardening — rate limiting on login and registration, CSRF protection on all forms, security headers (X-Content-Type-Options, X-Frame-Options), POST-only logout
 - Patagonia photo slideshow on the home page
 - Word of the Day — a daily-rotating English vocabulary card on the home page, selected from a curated list using a date-based index (no database required)
+- Contact form — messages saved to the database with a WhatsApp CTA for quick replies
+- Custom error pages — styled 404 and 500 pages with bilingual support
 - Feature flags — course visibility controlled by simple boolean flags in `routes.py` (e.g. `SHOW_C_LEVELS` toggles C1 and C2 courses on when ready to launch)
 
 ---
@@ -99,7 +101,6 @@ language_school/
 
 ## Planned next steps
 
-- Contact form
 - Booking flow for level tests — WhatsApp CTA added (placeholder number, swap in real number when ready)
 - Admin view for the school to manage enrolments
 - Deployment
