@@ -8,7 +8,7 @@ from flask_login import login_required, current_user
 from app.translations import TRANSLATIONS
 from app.forms import ContactForm
 from app.models import ContactMessage
-from app import db
+from app import db, limiter
 from datetime import date
 from app.words import WORDS
 
@@ -120,6 +120,7 @@ def about():
 
 
 @main.route("/contact", methods=["GET", "POST"])
+@limiter.limit("5 per minute")  # prevent spam — max 5 contact submissions per minute per IP
 def contact():
     """Render the Contact page. On POST, save the message to the database."""
     lang = get_lang()
