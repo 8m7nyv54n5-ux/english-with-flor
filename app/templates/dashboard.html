@@ -22,10 +22,18 @@
                 {% else %}
                     <div class="detail-row"><strong>{{ t["dashboard_passport"] }}:</strong> {{ user.enrolment.passport_no }}</div>
                 {% endif %}
+                <div class="detail-row"><strong>{{ t["enrol_address_line"] }}:</strong> {{ user.enrolment.address_line }}</div>
+                <div class="detail-row"><strong>{{ t["enrol_city"] }}:</strong> {{ user.enrolment.city }}</div>
+                <div class="detail-row"><strong>{{ t["enrol_province"] }}:</strong> {{ user.enrolment.province }}</div>
+                <div class="detail-row"><strong>{{ t["enrol_country"] }}:</strong> {{ user.enrolment.country }}</div>
+                <div class="detail-row"><strong>{{ t["enrol_postcode"] }}:</strong> {{ user.enrolment.postcode }}</div>
             {% endif %}
             <div style="margin-top:1rem; display:flex; gap:0.75rem; flex-wrap:wrap">
                 <a href="{{ url_for('auth.edit_profile', lang=lang) }}" class="btn btn-outline">{{ t["edit_profile_btn"] }}</a>
                 <a href="{{ url_for('auth.change_password', lang=lang) }}" class="btn btn-outline">{{ t["change_pw_btn"] }}</a>
+                {% if user.enrolment %}
+                <a href="{{ url_for('auth.edit_address', lang=lang) }}" class="btn btn-outline">{{ t["edit_address_btn"] }}</a>
+                {% endif %}
             </div>
         </div>
 

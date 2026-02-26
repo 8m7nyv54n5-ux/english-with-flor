@@ -67,6 +67,11 @@
                                 <th>CUIT/CUIL</th>
                                 <th>DNI</th>
                                 <th>Passport</th>
+                                <th>Address</th>
+                                <th>City</th>
+                                <th>Province</th>
+                                <th>Country</th>
+                                <th>Postcode</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -76,10 +81,15 @@
                                 {# .upper() in Jinja2 is written as the |upper filter #}
                                 <td>{{ user.enrolment.course | upper }}</td>
                                 <td>{{ user.enrolment.user_type | capitalize }}</td>
-                                {# Fields may be None if the user is international — show a dash #}
+                                {# ID fields may be None depending on student type — show a dash #}
                                 <td>{{ user.enrolment.cuit_cuil or "—" }}</td>
                                 <td>{{ user.enrolment.dni or "—" }}</td>
                                 <td>{{ user.enrolment.passport_no or "—" }}</td>
+                                <td>{{ user.enrolment.address_line }}</td>
+                                <td>{{ user.enrolment.city }}</td>
+                                <td>{{ user.enrolment.province }}</td>
+                                <td>{{ user.enrolment.country }}</td>
+                                <td>{{ user.enrolment.postcode }}</td>
                             </tr>
                             {% endfor %}
                         </tbody>

@@ -35,6 +35,13 @@ class Enrolment(db.Model):
     # International-only field (null for Argentine students)
     passport_no = db.Column(db.String(30), nullable=True)
 
+    # Address fields — required for all students regardless of type
+    address_line = db.Column(db.String(200), nullable=False)  # street address
+    city         = db.Column(db.String(100), nullable=False)
+    province     = db.Column(db.String(100), nullable=False)  # province, state, or region
+    country      = db.Column(db.String(100), nullable=False)
+    postcode     = db.Column(db.String(20),  nullable=False)
+
     # Back-reference to the User who owns this enrolment
     user = db.relationship("User", back_populates="enrolment")
 

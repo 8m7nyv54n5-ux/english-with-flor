@@ -73,7 +73,45 @@ class EnrolmentForm(FlaskForm):
                       Optional(),
                       Length(max=30, message="error_passport_length")])
 
+    # Address fields — required for all students
+    address_line = StringField("Street address", validators=[
+                       DataRequired(message="error_field_required"),
+                       Length(max=200, message="error_address_length")])
+    city         = StringField("City", validators=[
+                       DataRequired(message="error_field_required"),
+                       Length(max=100, message="error_city_length")])
+    province     = StringField("Province / State", validators=[
+                       DataRequired(message="error_field_required"),
+                       Length(max=100, message="error_province_length")])
+    country      = StringField("Country", validators=[
+                       DataRequired(message="error_field_required"),
+                       Length(max=100, message="error_country_length")])
+    postcode     = StringField("Postcode / ZIP", validators=[
+                       DataRequired(message="error_field_required"),
+                       Length(max=20, message="error_postcode_length")])
+
     submit = SubmitField("Enrol")
+
+
+class EditAddressForm(FlaskForm):
+    """Form for updating address details from the dashboard.
+    Only shown to users who have already enrolled (address lives on Enrolment)."""
+    address_line = StringField("Street address", validators=[
+                       DataRequired(message="error_field_required"),
+                       Length(max=200, message="error_address_length")])
+    city         = StringField("City", validators=[
+                       DataRequired(message="error_field_required"),
+                       Length(max=100, message="error_city_length")])
+    province     = StringField("Province / State", validators=[
+                       DataRequired(message="error_field_required"),
+                       Length(max=100, message="error_province_length")])
+    country      = StringField("Country", validators=[
+                       DataRequired(message="error_field_required"),
+                       Length(max=100, message="error_country_length")])
+    postcode     = StringField("Postcode / ZIP", validators=[
+                       DataRequired(message="error_field_required"),
+                       Length(max=20, message="error_postcode_length")])
+    submit       = SubmitField("Save")
 
 
 class EditProfileForm(FlaskForm):

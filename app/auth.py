@@ -9,7 +9,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, limiter
 from app.models import User, Enrolment, ContactMessage
 from app.forms import (RegistrationForm, LoginForm, EnrolmentForm,
-                       EditProfileForm, ChangePasswordForm, DeleteAccountForm)
+                       EditProfileForm, EditAddressForm, ChangePasswordForm, DeleteAccountForm)
 from app.translations import TRANSLATIONS
 from app.routes import SHOW_C_LEVELS
 
@@ -155,7 +155,12 @@ def enrol():
             course=form.course.data,
             cuit_cuil=form.cuit_cuil.data or None,   # store None if field was left blank
             dni=form.dni.data or None,
-            passport_no=form.passport_no.data or None
+            passport_no=form.passport_no.data or None,
+            address_line=form.address_line.data,
+            city=form.city.data,
+            province=form.province.data,
+            country=form.country.data,
+            postcode=form.postcode.data
         )
         db.session.add(enrolment)
         db.session.commit()
@@ -196,6 +201,37 @@ def edit_profile():
         return redirect(url_for("main.dashboard", lang=lang))
 
     return render_template("edit_profile.html", form=form, t=t, lang=lang)
+
+
+@auth.route("/edit-address", methods=["GET", "POST"])
+@login_required  # must be logged in to edit your own address
+def edit_address():
+    """Let the user update their address details.
+    Only accessible if the user has already enrolled (address lives on Enrolment).
+    GET  — display the form pre-filled with current address.
+    POST — validate and save changes."""
+    lang = get_lang()
+    t = TRANSLATIONS[lang]
+
+    # Guard: if user hasn't enrolled yet, there's no address to edit
+    if not current_user.enrolment:
+        return redirect(url_for("main.dashboard", lang=lang))
+
+    # obj=current_user.enrolment pre-fills form fields from the Enrolment object
+    form = EditAddressForm(obj=current_user.enrolment)
+
+    if form.validate_on_submit():
+        current_user.enrolment.address_line = form.address_line.data
+        current_user.enrolment.city         = form.city.data
+        current_user.enrolment.province     = form.province.data
+        current_user.enrolment.country      = form.country.data
+        current_user.enrolment.postcode     = form.postcode.data
+        db.session.commit()
+
+        flash(t["edit_address_success"], "success")
+        return redirect(url_for("main.dashboard", lang=lang))
+
+    return render_template("edit_address.html", form=form, t=t, lang=lang)
 
 
 @auth.route("/change-password", methods=["GET", "POST"])

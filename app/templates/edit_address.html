@@ -3,29 +3,11 @@
 {% block content %}
 <div class="page-wrapper">
     <div class="page-content">
-        <h1>{{ t["enrol_title"] }}</h1>
+        <h1>{{ t["edit_address_title"] }}</h1>
 
         <div class="card" style="margin-top:1.5rem">
             <form method="POST">
                 {{ form.hidden_tag() }}
-                <p>
-                    {{ form.user_type.label }}
-                    {{ form.user_type(id="user_type") }}
-                </p>
-                <p>
-                    {{ form.course.label }}
-                    {{ form.course() }}
-                </p>
-                <div id="argentina_fields">
-                    <p>{{ form.cuit_cuil.label }}{{ form.cuit_cuil(size=30) }}</p>
-                    <p>{{ form.dni.label }}{{ form.dni(size=30) }}</p>
-                </div>
-                <div id="international_fields" style="display:none;">
-                    <p>{{ form.passport_no.label }}{{ form.passport_no(size=30) }}</p>
-                </div>
-
-                <!-- Address — required for all students -->
-                <h3 style="margin-top:1.5rem; margin-bottom:0.5rem">{{ t["enrol_address_title"] }}</h3>
                 <p>
                     <label>{{ t["enrol_address_line"] }}</label>
                     {{ form.address_line(size=40) }}
@@ -51,25 +33,10 @@
                     {{ form.postcode(size=15) }}
                     {% for error in form.postcode.errors %}<span class="field-error">{{ t.get(error, error) }}</span>{% endfor %}
                 </p>
-
-                {{ form.submit() }}
+                <button type="submit">{{ t["edit_address_submit"] }}</button>
             </form>
         </div>
+        <p><a href="{{ url_for('main.dashboard', lang=lang) }}">{{ t["edit_address_cancel"] }}</a></p>
     </div>
 </div>
-
-<script>
-    const userTypeSelect = document.getElementById("user_type");
-    const argFields  = document.getElementById("argentina_fields");
-    const intlFields = document.getElementById("international_fields");
-    function toggleFields() {
-        if (userTypeSelect.value === "argentina") {
-            argFields.style.display = "block"; intlFields.style.display = "none";
-        } else {
-            argFields.style.display = "none"; intlFields.style.display = "block";
-        }
-    }
-    userTypeSelect.addEventListener("change", toggleFields);
-    toggleFields();
-</script>
 {% endblock %}

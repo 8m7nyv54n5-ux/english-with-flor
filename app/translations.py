@@ -243,6 +243,14 @@ TRANSLATIONS = {
         # Enrolment
         "enrol_title": "Enrol on a Course",
 
+        # Enrolment form — address fields
+        "enrol_address_title":   "Your Address",
+        "enrol_address_line":    "Street address",
+        "enrol_city":            "City",
+        "enrol_province":        "Province / State",
+        "enrol_country":         "Country",
+        "enrol_postcode":        "Postcode / ZIP",
+
         # Word of the day
         "wotd_label": "Word of the Day",
         "wotd_no_equiv": "No direct Spanish equivalent",
@@ -267,6 +275,13 @@ TRANSLATIONS = {
         "edit_profile_success": "Your details have been updated.",
         "edit_profile_btn": "Edit Details",
         "edit_profile_cancel": "Cancel",
+
+        # Dashboard — edit address
+        "edit_address_title":   "Edit Your Address",
+        "edit_address_submit":  "Save Changes",
+        "edit_address_success": "Your address has been updated.",
+        "edit_address_btn":     "Edit Address",
+        "edit_address_cancel":  "Cancel",
 
         # Dashboard — change password
         "change_pw_title": "Change Your Password",
@@ -294,6 +309,11 @@ TRANSLATIONS = {
         "error_invalid_credentials": "Invalid username or password. Please try again.",
         "error_argentina_fields": "Please enter both your CUIT/CUIL and DNI.",
         "error_passport_required": "Please enter your passport number.",
+        "error_address_length":  "Street address must be 200 characters or fewer.",
+        "error_city_length":     "City must be 100 characters or fewer.",
+        "error_province_length": "Province / State must be 100 characters or fewer.",
+        "error_country_length":  "Country must be 100 characters or fewer.",
+        "error_postcode_length": "Postcode / ZIP must be 20 characters or fewer.",
 
         # Error pages
         "error_404_title": "Page Not Found",
@@ -540,6 +560,14 @@ TRANSLATIONS = {
         # Enrolment
         "enrol_title": "Inscribirse en un curso",
 
+        # Enrolment form — address fields
+        "enrol_address_title":   "Tu dirección",
+        "enrol_address_line":    "Dirección",
+        "enrol_city":            "Ciudad",
+        "enrol_province":        "Provincia / Estado",
+        "enrol_country":         "País",
+        "enrol_postcode":        "Código postal",
+
         # Word of the day
         "wotd_label": "Palabra del día",
         "wotd_no_equiv": "Sin equivalente directo en español",
@@ -565,6 +593,13 @@ TRANSLATIONS = {
         "edit_profile_success": "Tus datos han sido actualizados.",
         "edit_profile_btn": "Editar datos",
         "edit_profile_cancel": "Cancelar",
+
+        # Dashboard — edit address
+        "edit_address_title":   "Editar tu dirección",
+        "edit_address_submit":  "Guardar cambios",
+        "edit_address_success": "Tu dirección ha sido actualizada.",
+        "edit_address_btn":     "Editar dirección",
+        "edit_address_cancel":  "Cancelar",
 
         # Dashboard — change password
         "change_pw_title": "Cambiar tu contraseña",
@@ -592,6 +627,11 @@ TRANSLATIONS = {
         "error_invalid_credentials": "Usuario o contraseña incorrectos. Por favor inténtalo de nuevo.",
         "error_argentina_fields": "Por favor introduce tu CUIT/CUIL y DNI.",
         "error_passport_required": "Por favor introduce tu número de pasaporte.",
+        "error_address_length":  "La dirección no puede superar los 200 caracteres.",
+        "error_city_length":     "La ciudad no puede superar los 100 caracteres.",
+        "error_province_length": "La provincia / estado no puede superar los 100 caracteres.",
+        "error_country_length":  "El país no puede superar los 100 caracteres.",
+        "error_postcode_length": "El código postal no puede superar los 20 caracteres.",
 
         # Error pages
         "error_404_title": "Página no encontrada",
