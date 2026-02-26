@@ -49,13 +49,12 @@ def register():
     form = RegistrationForm()
 
     if form.validate_on_submit():
-        # Check username and email are not already taken
-        if User.query.filter_by(username=form.username.data).first():
-            flash(TRANSLATIONS[lang]["error_username_taken"])
-            return render_template("register.html", form=form, t=TRANSLATIONS[lang], lang=lang)
-
-        if User.query.filter_by(email=form.email.data).first():
-            flash(TRANSLATIONS[lang]["error_email_taken"])
+        # Check username and email are not already taken.
+        # Both checks use the same generic message so attackers can't tell
+        # which field is already registered (prevents account enumeration).
+        if (User.query.filter_by(username=form.username.data).first() or
+                User.query.filter_by(email=form.email.data).first()):
+            flash(TRANSLATIONS[lang]["error_account_exists"])
             return render_template("register.html", form=form, t=TRANSLATIONS[lang], lang=lang)
 
         # Hash the password — never store plain text.
@@ -123,6 +122,11 @@ def enrol():
     GET  — display the enrolment form.
     POST — validate, save the enrolment, and redirect to dashboard."""
     lang = get_lang()
+
+    # Guard: redirect if the user is already enrolled — prevents duplicate records
+    if current_user.enrolment:
+        return redirect(url_for("main.dashboard", lang=lang))
+
     form = EnrolmentForm()
 
     # Only show C1/C2 in the dropdown when the feature flag is on.

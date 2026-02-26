@@ -38,6 +38,13 @@ def create_app():
     app.config["SECRET_KEY"] = secret_key
     # Tell SQLAlchemy to use a SQLite file called school.db inside the instance/ folder
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///school.db"
+    # SESSION_COOKIE_SECURE: only transmit the session cookie over HTTPS.
+    # Set SESSION_COOKIE_SECURE=true in the production .env (PythonAnywhere).
+    # Leave unset for local dev — HTTPS isn't available on 127.0.0.1.
+    app.config["SESSION_COOKIE_SECURE"]   = os.environ.get("SESSION_COOKIE_SECURE", "false").lower() == "true"
+    # SameSite=Lax stops the session cookie being sent with cross-site requests,
+    # which provides CSRF protection as a second layer on top of Flask-WTF tokens.
+    app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
 
     # Bind the extensions to this specific app instance
     db.init_app(app)
@@ -67,6 +74,17 @@ def create_app():
         response.headers["X-Content-Type-Options"] = "nosniff"
         # Stops the site being loaded inside an <iframe> on another domain (clickjacking)
         response.headers["X-Frame-Options"] = "SAMEORIGIN"
+        # Content Security Policy — controls which resources the browser is allowed to load.
+        # 'unsafe-inline' is needed for the inline <script> and style= attributes in templates.
+        # Google Fonts domains are whitelisted for the stylesheet and font files.
+        response.headers["Content-Security-Policy"] = (
+            "default-src 'self'; "
+            "script-src 'self' 'unsafe-inline'; "
+            "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; "
+            "font-src 'self' https://fonts.gstatic.com; "
+            "img-src 'self' data:; "
+            "frame-ancestors 'self';"
+        )
         return response
 
     # Custom error pages — show friendly pages instead of Flask's defaults.

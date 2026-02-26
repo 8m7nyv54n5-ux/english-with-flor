@@ -14,7 +14,7 @@ Built as a Python learning project, working through Flask fundamentals step by s
 - Course enrolment form — handles Argentine (CUIT/CUIL, DNI) and international (passport) students, with format validation on identity fields; collects a full address (street, city, province, country, postcode) from all students regardless of type
 - User dashboard showing enrolment details, with the ability to edit personal details, address, and password, and delete account; admin users see a direct link to the admin dashboard
 - Admin dashboard — password-protected view for the school owner showing all registered students, enrolments, and contact messages
-- Security hardening — rate limiting on login and registration, CSRF protection on all forms, security headers (X-Content-Type-Options, X-Frame-Options), POST-only logout
+- Security hardening — rate limiting on login, registration, and contact form; CSRF protection on all forms; security headers (X-Content-Type-Options, X-Frame-Options, Content-Security-Policy); POST-only logout; session cookies set to SameSite=Lax and Secure in production; generic registration error prevents account enumeration; duplicate enrolment guard prevents data integrity issues
 - Patagonia photo slideshow on the home page — auto-advances every 4.5 seconds with manual controls
 - Student testimonials — cycling carousel of real student quotes, auto-advancing every 8 seconds with a CSS fade transition
 - Word of the Day — a daily-rotating English vocabulary card on the home page, selected from a curated list using a date-based index (no database required)

@@ -306,6 +306,9 @@ TRANSLATIONS = {
         # Errors
         "error_username_taken": "That username is already taken. Please choose another.",
         "error_email_taken": "An account with that email already exists.",
+        # Generic message used during registration so attackers can't tell which field
+        # (username or email) is already registered — prevents account enumeration.
+        "error_account_exists": "That username or email is already registered. Please try different details.",
         "error_invalid_credentials": "Invalid username or password. Please try again.",
         "error_argentina_fields": "Please enter both your CUIT/CUIL and DNI.",
         "error_passport_required": "Please enter your passport number.",
@@ -624,6 +627,8 @@ TRANSLATIONS = {
         # Errors
         "error_username_taken": "Ese nombre de usuario ya está en uso. Por favor elige otro.",
         "error_email_taken": "Ya existe una cuenta con ese correo electrónico.",
+        # Generic message used during registration — prevents account enumeration
+        "error_account_exists": "Ese usuario o correo ya está registrado. Por favor intenta con otros datos.",
         "error_invalid_credentials": "Usuario o contraseña incorrectos. Por favor inténtalo de nuevo.",
         "error_argentina_fields": "Por favor introduce tu CUIT/CUIL y DNI.",
         "error_passport_required": "Por favor introduce tu número de pasaporte.",
