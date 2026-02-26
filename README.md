@@ -15,7 +15,8 @@ Built as a Python learning project, working through Flask fundamentals step by s
 - User dashboard showing enrolment details, with the ability to edit personal details, change password, and delete account; admin users see a direct link to the admin dashboard
 - Admin dashboard — password-protected view for the school owner showing all registered students, enrolments, and contact messages
 - Security hardening — rate limiting on login and registration, CSRF protection on all forms, security headers (X-Content-Type-Options, X-Frame-Options), POST-only logout
-- Patagonia photo slideshow on the home page
+- Patagonia photo slideshow on the home page — auto-advances every 4.5 seconds with manual controls
+- Student testimonials — cycling carousel of real student quotes, auto-advancing every 8 seconds with a CSS fade transition
 - Word of the Day — a daily-rotating English vocabulary card on the home page, selected from a curated list using a date-based index (no database required)
 - Contact form — messages saved to the database with a WhatsApp CTA for quick replies
 - Custom error pages — styled 404 and 500 pages with bilingual support
@@ -36,7 +37,7 @@ Built as a Python learning project, working through Flask fundamentals step by s
 | Rate limiting | Flask-Limiter |
 | Production server | Gunicorn |
 | Environment variables | python-dotenv |
-| Front end | Custom CSS |
+| Front end | Custom CSS + vanilla JavaScript |
 
 ---
 

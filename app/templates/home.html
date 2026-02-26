@@ -182,13 +182,27 @@
         </div>
     </section>
 
-    <!-- ── Testimonial ── -->
+    <!-- ── Student Stories ── -->
     <section class="testimonial">
         <div class="container reveal">
-            <div class="section-label">Student Stories</div>
-            <blockquote>"{{ t["testimonial_quote"] }}"</blockquote>
-            <div class="testimonial-author">
-                <strong>{{ t["testimonial_author"] }}</strong> &nbsp;·&nbsp; {{ t["testimonial_location"] }}
+            <div class="section-label">{{ t["stories_label"] }}</div>
+            <div class="testimonial-carousel">
+
+                <div class="testimonial-slide active">
+                    <blockquote>"Me encantaron las clases de Flor, tiene mucha paciencia y su método de enseñanza es divertido. Gracias a ella, pude entender muchos temas que no llegué a comprender en la escuela, además de que aprendí muchas cosas más. También me sentí muy segura a la hora de hablar en inglés, porque sus correcciones eran muy amables y constructivas. ❤️"</blockquote>
+                    <div class="testimonial-author"><strong>Andrea</strong> &nbsp;·&nbsp; Monte Caseros, Corrientes</div>
+                </div>
+
+                <div class="testimonial-slide">
+                    <blockquote>"Nos llevamos súper bien, me ayudó mucho que me tenga paciencia y me vuelva a explicar todas las veces necesarias. No tengo ninguna crítica, siento que el curso en sí cumplió las expectativas."</blockquote>
+                    <div class="testimonial-author"><strong>Yesica</strong> &nbsp;·&nbsp; Monte Caseros, Corrientes</div>
+                </div>
+
+                <div class="testimonial-slide">
+                    <blockquote>"Me encantó todo, fue súper ameno cada encuentro, y a pesar de que era mucha información, no se sentían pesadas las clases. Amé todas las dinámicas."</blockquote>
+                    <div class="testimonial-author"><strong>Paula</strong> &nbsp;·&nbsp; Monte Caseros, Corrientes</div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -227,6 +241,15 @@
             showSlide(n);
             timer = setInterval(() => moveSlide(1), 4500);
         }
+
+        // Testimonial carousel — cycles every 8 seconds
+        let tCurrent = 0;
+        const tSlides = document.querySelectorAll(".testimonial-slide");
+        setInterval(() => {
+            tSlides[tCurrent].classList.remove("active");
+            tCurrent = (tCurrent + 1) % tSlides.length;
+            tSlides[tCurrent].classList.add("active");
+        }, 8000);
     </script>
 
 {% endblock %}

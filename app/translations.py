@@ -39,10 +39,8 @@ TRANSLATIONS = {
         "step3_title": "Refine & Master",
         "step3_desc": "Targeted feedback and personalised exercises lock in what you have learned for permanent recall.",
 
-        # Home — testimonial
-        "testimonial_quote": "In six months with Flor, I went from barely ordering coffee to presenting quarterly results to our London office — in English.",
-        "testimonial_author": "María Fernández",
-        "testimonial_location": "Buenos Aires · B2 Graduate",
+        # Home — student stories section label
+        "stories_label": "Student Stories",
 
         # Home — CTA
         "cta_title": "Book your level test",
@@ -338,10 +336,8 @@ TRANSLATIONS = {
         "step3_title": "Perfecciona y domina",
         "step3_desc": "Retroalimentación personalizada y ejercicios específicos consolidan lo aprendido para un recuerdo permanente.",
 
-        # Home — testimonial
-        "testimonial_quote": "En seis meses con Flor, pasé de apenas pedir un café a presentar resultados trimestrales en nuestra oficina de Londres — en inglés.",
-        "testimonial_author": "María Fernández",
-        "testimonial_location": "Buenos Aires · Graduada B2",
+        # Home — student stories section label
+        "stories_label": "Lo que dicen nuestros alumnos",
 
         # Home — CTA
         "cta_title": "Reserva tu test de nivel",

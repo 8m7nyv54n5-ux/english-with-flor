@@ -467,6 +467,9 @@ input[type="submit"]:hover, button[type="submit"]:hover { background: #aaee55; t
 }
 .testimonial-author { font-size: 0.88rem; color: var(--muted); }
 .testimonial-author strong { color: var(--dark); font-weight: 500; }
+.testimonial-slide { display: none; }
+.testimonial-slide.active { display: block; animation: tFade 0.7s ease; }
+@keyframes tFade { from { opacity: 0; } to { opacity: 1; } }
 
 /* ── CTA ────────────────────────────────────────────────── */
 .cta { padding: 6rem 0; }
