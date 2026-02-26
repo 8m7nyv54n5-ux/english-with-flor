@@ -5,6 +5,12 @@
     <div class="page-content">
         <h1>{{ t["dashboard_title"] }}, {{ user.first_name }}!</h1>
 
+        {% if user.is_admin %}
+        <div style="margin-top:1.5rem">
+            <a href="{{ url_for('auth.admin', lang=lang) }}" class="btn">&#9881; Admin Dashboard</a>
+        </div>
+        {% endif %}
+
         <div class="card" style="margin-top:1.5rem">
             <h2>{{ t["dashboard_your_details"] }}</h2>
             <div class="detail-row"><strong>{{ t["dashboard_username"] }}:</strong> {{ user.username }}</div>

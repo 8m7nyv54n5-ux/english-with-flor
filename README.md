@@ -12,7 +12,7 @@ Built as a Python learning project, working through Flask fundamentals step by s
 - Course pages — individual CEFR levels: A1, A2, B1, B2 (live), C1 and C2 (coming soon)
 - User registration and login with hashed passwords (scrypt)
 - Course enrolment form — handles Argentine (CUIT/CUIL, DNI) and international (passport) students, with format validation on identity fields
-- User dashboard showing enrolment details, with the ability to edit personal details, change password, and delete account
+- User dashboard showing enrolment details, with the ability to edit personal details, change password, and delete account; admin users see a direct link to the admin dashboard
 - Admin dashboard — password-protected view for the school owner showing all registered students, enrolments, and contact messages
 - Security hardening — rate limiting on login and registration, CSRF protection on all forms, security headers (X-Content-Type-Options, X-Frame-Options), POST-only logout
 - Patagonia photo slideshow on the home page
