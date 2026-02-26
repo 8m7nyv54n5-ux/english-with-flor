@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-wrapper">
+    <div class="page-content">
+        <h1>Admin Dashboard</h1>
+        <p style="color:#888; margin-top:0.25rem">Logged in as {{ current_user.first_name }} {{ current_user.last_name }}</p>
+
+        {# ------------------------------------------------------------------ #}
+        {# SECTION 1: STUDENTS                                                 #}
+        {# users is a list of User objects passed in from the admin() route.   #}
+        {# We loop over it with {% for user in users %} just like Python.      #}
+        {# ------------------------------------------------------------------ #}
+        <div class="card" style="margin-top:2rem">
+            <h2>Students <span class="admin-count">{{ users|length }}</span></h2>
+            {% if users %}
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Admin?</th>
+                                <th>Enrolled?</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.first_name }} {{ user.last_name }}</td>
+                                <td>{{ user.username }}</td>
+                                <td>{{ user.email }}</td>
+                                {# is_admin is a boolean — show a tick or dash for readability #}
+                                <td>{{ "Yes" if user.is_admin else "—" }}</td>
+                                {# user.enrolment comes from the relationship defined in models.py #}
+                                {# it's None if the user hasn't enrolled yet                      #}
+                                <td>{{ "Yes" if user.enrolment else "—" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p>No students registered yet.</p>
+            {% endif %}
+        </div>
+
+        {# ------------------------------------------------------------------ #}
+        {# SECTION 2: ENROLMENTS                                               #}
+        {# We reuse the same users list and filter to only those with an       #}
+        {# enrolment using {% if user.enrolment %} inside the loop.            #}
+        {# ------------------------------------------------------------------ #}
+        <div class="card">
+            <h2>Enrolments</h2>
+            {% set enrolled_users = users | selectattr("enrolment") | list %}
+            {% if enrolled_users %}
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Course</th>
+                                <th>Type</th>
+                                <th>CUIT/CUIL</th>
+                                <th>DNI</th>
+                                <th>Passport</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in enrolled_users %}
+                            <tr>
+                                <td>{{ user.first_name }} {{ user.last_name }}</td>
+                                {# .upper() in Jinja2 is written as the |upper filter #}
+                                <td>{{ user.enrolment.course | upper }}</td>
+                                <td>{{ user.enrolment.user_type | capitalize }}</td>
+                                {# Fields may be None if the user is international — show a dash #}
+                                <td>{{ user.enrolment.cuit_cuil or "—" }}</td>
+                                <td>{{ user.enrolment.dni or "—" }}</td>
+                                <td>{{ user.enrolment.passport_no or "—" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p>No enrolments yet.</p>
+            {% endif %}
+        </div>
+
+        {# ------------------------------------------------------------------ #}
+        {# SECTION 3: CONTACT MESSAGES                                         #}
+        {# messages is a list of ContactMessage objects, newest first.         #}
+        {# created_at is a datetime — we format it with Jinja2's strftime.     #}
+        {# ------------------------------------------------------------------ #}
+        <div class="card">
+            <h2>Contact Messages <span class="admin-count">{{ messages|length }}</span></h2>
+            {% if messages %}
+                <div class="table-wrap">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for msg in messages %}
+                            <tr>
+                                {# strftime formats the datetime object into a readable string #}
+                                <td style="white-space:nowrap">{{ msg.created_at.strftime("%d %b %Y") if msg.created_at else "—" }}</td>
+                                <td>{{ msg.name }}</td>
+                                <td>{{ msg.email }}</td>
+                                <td>{{ msg.message }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p>No messages yet.</p>
+            {% endif %}
+        </div>
+
+    </div>
+</div>
+{% endblock %}

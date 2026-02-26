@@ -15,6 +15,7 @@ class User(UserMixin, db.Model):
     email         = db.Column(db.String(150), unique=True, nullable=False)  # must be unique
     username      = db.Column(db.String(80),  unique=True, nullable=False)  # must be unique
     password_hash = db.Column(db.String(256), nullable=False)  # hashed — never plain text
+    is_admin      = db.Column(db.Boolean, default=False, nullable=False)  # True for Flor only
 
     # One user can have one enrolment (uselist=False means it's a single object, not a list)
     enrolment = db.relationship("Enrolment", back_populates="user", uselist=False)

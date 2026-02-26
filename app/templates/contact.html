@@ -5,15 +5,6 @@
     <div class="page-content">
         <h1>{{ t["contact_title"] }}</h1>
 
-        <!-- Flash messages (e.g. "Thanks for your message!") -->
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="flash flash-{{ category }}">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-
         <div class="card" style="margin-top:1.5rem">
             <p><strong>{{ t["contact_email"] }}:</strong> hello@englishwithflor.com</p>
             <p><strong>{{ t["contact_phone"] }}:</strong> +54 11 1234 5678</p>

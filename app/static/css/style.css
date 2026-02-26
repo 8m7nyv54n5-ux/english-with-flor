@@ -813,3 +813,63 @@ a.program-card {
     text-transform: uppercase;
     letter-spacing: 0.05em;
 }
+
+/* ── Global flash messages ──────────────────────────────── */
+.flash-global {
+    max-width: 680px;
+    margin: 5.5rem auto 0;  /* clears the fixed nav (~64px) plus breathing room */
+    padding: 0 1.5rem;
+}
+
+/* ── Admin dashboard ────────────────────────────────────── */
+.admin-count {
+    display: inline-block;
+    background: var(--accent-soft);
+    color: var(--dark);
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.15rem 0.6rem;
+    border-radius: 20px;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+}
+
+/* Wrapper that lets the table scroll horizontally on small screens */
+.table-wrap {
+    overflow-x: auto;
+    margin-top: 1rem;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;   /* remove double borders between cells */
+    font-size: 0.9rem;
+}
+
+.admin-table th {
+    text-align: left;
+    padding: 0.6rem 1rem;
+    background: var(--cream);
+    color: var(--muted);
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    border-bottom: 2px solid rgba(47,47,47,0.07);
+}
+
+.admin-table td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(47,47,47,0.06);
+    color: var(--dark);
+    vertical-align: top;
+}
+
+/* Zebra stripe every other row for readability */
+.admin-table tbody tr:nth-child(even) td {
+    background: rgba(47,47,47,0.02);
+}
+
+.admin-table tbody tr:hover td {
+    background: var(--accent-soft);
+}

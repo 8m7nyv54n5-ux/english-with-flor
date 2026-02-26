@@ -2,11 +2,12 @@
 # Contains the auth blueprint — all routes related to user accounts:
 # registering, logging in, logging out, and enrolling on a course.
 
+from functools import wraps
 from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, limiter
-from app.models import User, Enrolment
+from app.models import User, Enrolment, ContactMessage
 from app.forms import (RegistrationForm, LoginForm, EnrolmentForm,
                        EditProfileForm, ChangePasswordForm, DeleteAccountForm)
 from app.translations import TRANSLATIONS
@@ -14,6 +15,19 @@ from app.routes import SHOW_C_LEVELS
 
 # Create the "auth" blueprint — registered with the app in __init__.py
 auth = Blueprint("auth", __name__)
+
+
+def admin_required(f):
+    """Decorator that restricts a route to admin users only.
+    Works like @login_required but also checks is_admin.
+    Usage: stack it below @login_required on any admin route."""
+    @wraps(f)  # preserves the original function's name and docstring
+    def decorated(*args, **kwargs):
+        if not current_user.is_admin:
+            flash("You don't have permission to view that page.")
+            return redirect(url_for("main.home"))
+        return f(*args, **kwargs)
+    return decorated
 
 
 def get_lang():
@@ -243,3 +257,16 @@ def delete_account():
         return redirect(url_for("main.home", lang=lang))
 
     return render_template("delete_account.html", form=form, t=t, lang=lang)
+
+
+@auth.route("/admin")
+@login_required   # step 1: must be logged in
+@admin_required   # step 2: must also be an admin
+def admin():
+    """Render the admin dashboard — visible to Flor only.
+    Queries all users, enrolments, and contact messages from the database."""
+    lang = get_lang()
+    # Fetch all records from each table, ordered newest first for messages
+    users    = User.query.order_by(User.id).all()
+    messages = ContactMessage.query.order_by(ContactMessage.created_at.desc()).all()
+    return render_template("admin.html", users=users, messages=messages, t=TRANSLATIONS[lang], lang=lang)
