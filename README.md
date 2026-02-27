@@ -2,7 +2,7 @@
 
 A bilingual (English / Spanish) language school website built with Python and Flask.
 
-Built as a Python learning project, working through Flask fundamentals step by step — routing, templates, databases, authentication, and security.
+Built as a Python learning project, working through Flask fundamentals step by step — routing, templates, databases, authentication, and security — with a companion FastAPI REST API built alongside as a Step 6 learning project.
 
 ---
 
@@ -38,6 +38,7 @@ Built as a Python learning project, working through Flask fundamentals step by s
 | Production server | Gunicorn |
 | Environment variables | python-dotenv |
 | Front end | Custom CSS + vanilla JavaScript |
+| REST API | FastAPI + Uvicorn |
 
 ---
 
@@ -79,6 +80,23 @@ To stop the server press `Ctrl+C` in your terminal. If the port gets stuck in us
 kill $(lsof -ti:5000)
 ```
 
+### Running the REST API
+
+The FastAPI API runs as a separate server on port 8000:
+```
+uvicorn api.main:app --reload --port 8000
+```
+
+Then open [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) for the auto-generated interactive documentation.
+
+Available endpoints:
+- `GET /` — health check
+- `GET /word-of-the-day` — today's vocabulary word
+- `GET /courses` — list of all active courses
+- `GET /courses/{level}` — detail for a specific CEFR level (e.g. `/courses/b1`)
+
+---
+
 ### Running in production
 
 For production, use Gunicorn instead of Flask's built-in server:
@@ -94,20 +112,26 @@ This serves the app with multiple workers for better performance and reliability
 
 ```
 language_school/
-├── run.py                  ← development entry point
-├── wsgi.py                 ← production entry point (Gunicorn)
+├── run.py                  ← Flask development entry point
+├── wsgi.py                 ← Flask production entry point (Gunicorn)
 ├── .env                    ← secret key (not committed)
 ├── requirements.txt
-└── app/
-    ├── __init__.py         ← app factory
-    ├── models.py           ← User, Enrolment, and ContactMessage database models
-    ├── routes.py           ← main blueprint (public pages)
-    ├── auth.py             ← auth blueprint (register, login, enrol, edit profile, change password, delete account, admin)
-    ├── forms.py            ← WTForms form classes
-    ├── translations.py     ← EN/ES text dictionary
-    ├── words.py            ← curated word list for the Word of the Day feature
-    ├── templates/          ← Jinja2 HTML templates
-    └── static/             ← CSS and images
+├── app/                    ← Flask web app
+│   ├── __init__.py         ← app factory
+│   ├── models.py           ← User, Enrolment, and ContactMessage database models
+│   ├── routes.py           ← main blueprint (public pages)
+│   ├── auth.py             ← auth blueprint (register, login, enrol, edit profile, change password, delete account, admin)
+│   ├── forms.py            ← WTForms form classes
+│   ├── translations.py     ← EN/ES text dictionary
+│   ├── words.py            ← curated word list for the Word of the Day feature
+│   ├── templates/          ← Jinja2 HTML templates
+│   └── static/             ← CSS and images
+└── api/                    ← FastAPI REST API
+    ├── main.py             ← API entry point
+    ├── schemas.py          ← Pydantic response models
+    └── routes/
+        ├── words.py        ← GET /word-of-the-day
+        └── courses.py      ← GET /courses, GET /courses/{level}
 ```
 
 ---
@@ -116,4 +140,5 @@ language_school/
 
 - Password reset via email link
 - Booking flow for level tests — WhatsApp CTA added (placeholder number, swap in real number when ready)
+- FastAPI — POST /contact endpoint, JWT authentication
 - Deployment
