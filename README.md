@@ -21,6 +21,7 @@ Built as a Python learning project, working through Flask fundamentals step by s
 - Contact form — messages saved to the database with a WhatsApp CTA for quick replies
 - Custom error pages — styled 404 and 500 pages with bilingual support
 - Feature flags — course visibility controlled by simple boolean flags in `routes.py` (e.g. `SHOW_C_LEVELS` toggles C1 and C2 courses on when ready to launch)
+- REST API — standalone FastAPI companion API on port 8000 with auto-generated Swagger documentation (`/docs`); exposes course data and Word of the Day as JSON endpoints with Pydantic-validated response schemas
 
 ---
 
