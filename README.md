@@ -92,9 +92,10 @@ Then open [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) for the auto-
 
 Available endpoints:
 - `GET /` — health check
-- `GET /word-of-the-day` — today's vocabulary word
+- `GET /word-of-the-day` — today's vocabulary word (supports `?lang=es` for Spanish labels)
 - `GET /courses` — list of all active courses
-- `GET /courses/{level}` — detail for a specific CEFR level (e.g. `/courses/b1`)
+- `GET /courses/{level}` — full detail for a specific CEFR level (e.g. `/courses/b1`)
+- `POST /enquiries` — submit a prospective student enquiry
 
 ---
 
@@ -132,7 +133,8 @@ language_school/
     ├── schemas.py          ← Pydantic response models
     └── routes/
         ├── words.py        ← GET /word-of-the-day
-        └── courses.py      ← GET /courses, GET /courses/{level}
+        ├── courses.py      ← GET /courses, GET /courses/{level}
+        └── enquiries.py    ← POST /enquiries
 ```
 
 ---
@@ -141,5 +143,5 @@ language_school/
 
 - Password reset via email link
 - Booking flow for level tests — WhatsApp CTA added (placeholder number, swap in real number when ready)
-- FastAPI — POST /contact endpoint, JWT authentication
+- FastAPI — JWT authentication
 - Deployment
