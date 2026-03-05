@@ -1,6 +1,7 @@
 # api/auth.py
 # JWT utility functions — token creation, verification, and the get_current_user dependency.
 
+import os
 from datetime import datetime, timedelta, timezone
 from jose import JWTError, jwt
 from fastapi import Depends, HTTPException, status
@@ -14,9 +15,13 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
 # Configuration
 # ---------------------------------------------------------------------------
 
-# In production, SECRET_KEY must be loaded from an environment variable.
-# Any party that holds this key can forge valid tokens.
-SECRET_KEY = "change-me-in-production"
+# Loaded from the SECRET_KEY environment variable (set in .env via python-dotenv,
+# or as a platform environment variable in production).
+# The application will raise a clear error at startup if the key is missing,
+# rather than silently running with an insecure fallback.
+SECRET_KEY = os.environ.get("SECRET_KEY")
+if not SECRET_KEY:
+    raise RuntimeError("SECRET_KEY environment variable is not set")
 
 # HS256 (HMAC-SHA256) — symmetric signing: the same key is used to sign and verify.
 ALGORITHM = "HS256"

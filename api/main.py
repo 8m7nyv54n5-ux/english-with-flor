@@ -2,6 +2,9 @@
 # FastAPI application entry point.
 # Run with: uvicorn api.main:app --reload --port 8000
 
+from dotenv import load_dotenv
+load_dotenv()  # loads .env before any module reads os.environ (e.g. api/auth.py)
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.routes import words, courses, enquiries, login, users
