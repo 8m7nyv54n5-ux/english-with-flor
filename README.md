@@ -158,6 +158,13 @@ english-with-flor/
 
 ## Roadmap
 
+### Web application
 - Password reset via email link (Flask-Mail + itsdangerous signed tokens)
 - Booking flow for level test appointments
 - Deployment to PythonAnywhere
+
+### REST API
+- API test suite — pytest + FastAPI TestClient covering authentication, protected endpoints, validation errors, and 404 handling
+- Persist enquiries to the database — new `Enquiry` model; `POST /enquiries` saves submissions to `school.db`
+- Rate limiting on login and enquiry endpoints (slowapi)
+- `GET /enrolments/me` — return the authenticated user's enrolment details
