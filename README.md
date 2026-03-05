@@ -1,27 +1,29 @@
 # English with Flor
 
-A bilingual (English / Spanish) language school website built with Python and Flask.
-
-Built as a Python learning project, working through Flask fundamentals step by step — routing, templates, databases, authentication, and security — with a companion FastAPI REST API built alongside as a Step 6 learning project.
+A bilingual English/Spanish language school web application built with Python, Flask, and FastAPI. The platform handles student registration, course enrolment, and account management, with a companion REST API providing authenticated JSON access to the same data layer.
 
 ---
 
 ## Features
 
-- Bilingual UI — full English and Spanish support via a `?lang=` URL toggle
-- Course pages — individual CEFR levels: A1, A2, B1, B2 (live), C1 and C2 (coming soon)
-- User registration and login with hashed passwords (scrypt)
-- Course enrolment form — handles Argentine (CUIT/CUIL, DNI) and international (passport) students, with format validation on identity fields; collects a full address (street, city, province, country, postcode) from all students regardless of type
-- User dashboard showing enrolment details, with the ability to edit personal details, address, and password, and delete account; admin users see a direct link to the admin dashboard
-- Admin dashboard — password-protected view for the school owner showing all registered students, enrolments, and contact messages
-- Security hardening — rate limiting on login, registration, and contact form; CSRF protection on all forms; security headers (X-Content-Type-Options, X-Frame-Options, Content-Security-Policy); POST-only logout; session cookies set to SameSite=Lax and Secure in production; generic registration error prevents account enumeration; duplicate enrolment guard prevents data integrity issues
-- Patagonia photo slideshow on the home page — auto-advances every 4.5 seconds with manual controls
-- Student testimonials — cycling carousel of real student quotes, auto-advancing every 8 seconds with a CSS fade transition
-- Word of the Day — a daily-rotating English vocabulary card on the home page, selected from a curated list using a date-based index (no database required)
-- Contact form — messages saved to the database with a WhatsApp CTA for quick replies
-- Custom error pages — styled 404 and 500 pages with bilingual support
-- Feature flags — course visibility controlled by simple boolean flags in `routes.py` (e.g. `SHOW_C_LEVELS` toggles C1 and C2 courses on when ready to launch)
-- REST API — standalone FastAPI companion API on port 8000 with auto-generated Swagger documentation (`/docs`); exposes course data, Word of the Day, and user profile management as JSON endpoints with Pydantic-validated request/response schemas; JWT authentication via `python-jose` (HS256) protects write endpoints; CORS middleware restricts browser access to permitted origins; connects to the same SQLite database as the Flask app via a standalone SQLAlchemy session (no Flask context required)
+### Web application
+- **Bilingual UI** — full English and Spanish support toggled via a `?lang=` URL parameter, applied consistently across all pages and form validation messages
+- **Course catalogue** — individual pages for CEFR levels A1, A2, B1, and B2; C1 and C2 controlled by a feature flag for staged release
+- **Authentication** — user registration and login with scrypt-hashed passwords via Werkzeug; session management via Flask-Login
+- **Enrolment** — student type-aware form handling Argentine students (CUIT/CUIL, DNI with format validation) and international students (passport); collects a full postal address from all students
+- **User dashboard** — view enrolment details; edit personal details, address, and password; delete account (GDPR-style data removal)
+- **Admin dashboard** — role-protected view (`is_admin` flag) displaying all registered users, enrolments, and contact form submissions
+- **Security** — CSRF protection on all forms; rate limiting on login, registration, and contact endpoints; `Content-Security-Policy`, `X-Frame-Options`, and `X-Content-Type-Options` headers; `SameSite=Lax` session cookies with `Secure` flag in production; generic error messages on registration to prevent account enumeration; duplicate enrolment guard
+- **Contact form** — submissions persisted to the database; WhatsApp CTA for direct replies
+- **Word of the Day** — daily-rotating vocabulary card driven by a date-based index against a curated word list; no additional database queries required
+- **Feature flags** — boolean constants in `routes.py` control course visibility, enabling staged content releases without code changes
+
+### REST API
+- **JWT authentication** — HS256-signed tokens issued by `POST /auth/login`; verified on protected endpoints via a FastAPI dependency (`get_current_user`)
+- **Pydantic validation** — all request bodies and response schemas are defined as Pydantic `BaseModel` subclasses; malformed requests return `422 Unprocessable Entity` automatically
+- **Shared data layer** — connects to the same `school.db` SQLite database as the Flask app via a standalone SQLAlchemy session; no data duplication
+- **CORS** — `CORSMiddleware` restricts browser cross-origin requests to permitted origins
+- **Auto-generated documentation** — interactive Swagger UI available at `/docs`
 
 ---
 
@@ -33,130 +35,129 @@ Built as a Python learning project, working through Flask fundamentals step by s
 | Web framework | Flask 3 |
 | Templates | Jinja2 |
 | Database | SQLite via Flask-SQLAlchemy |
-| Authentication | Flask-Login + Werkzeug password hashing |
+| Authentication | Flask-Login + Werkzeug |
 | Forms | Flask-WTF |
 | Rate limiting | Flask-Limiter |
 | Production server | Gunicorn |
 | Environment variables | python-dotenv |
 | Front end | Custom CSS + vanilla JavaScript |
 | REST API | FastAPI + Uvicorn |
-| API auth | python-jose (JWT / HS256) |
+| API authentication | python-jose (JWT / HS256) |
 | API data validation | Pydantic v2 |
 
 ---
 
-## Running locally
+## Getting started
 
-**1. Clone the repo**
-```
+**1. Clone the repository**
+```bash
 git clone https://github.com/8m7nyv54n5-ux/english-with-flor.git
 cd english-with-flor
 ```
 
 **2. Create and activate a virtual environment**
-```
+```bash
 python3 -m venv venv
 source venv/bin/activate
 ```
 
 **3. Install dependencies**
-```
+```bash
 pip install -r requirements.txt
 ```
 
-**4. Create a `.env` file** in the project root with a secret key (the app will refuse to start without this):
+**4. Configure environment variables**
+
+Create a `.env` file in the project root. The application will not start without a secret key:
 ```
 SECRET_KEY=your-secret-key-here
 ```
 
-**5. Run the app**
-```
+**5. Start the development server**
+```bash
 python3 run.py
 ```
 
-Then open [http://127.0.0.1:5000](http://127.0.0.1:5000) in your browser.
+The application is available at [http://127.0.0.1:5000](http://127.0.0.1:5000).
 
-> **Note for macOS users:** Use `127.0.0.1:5000` rather than `localhost:5000`. On newer versions of macOS, `localhost` can resolve slowly or fail due to IPv6 handling.
-
-To stop the server press `Ctrl+C` in your terminal. If the port gets stuck in use, run:
-```
-kill $(lsof -ti:5000)
-```
-
-### Running the REST API
-
-The FastAPI API runs as a separate server on port 8000:
-```
-uvicorn api.main:app --reload --port 8000
-```
-
-Then open [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) for the auto-generated interactive documentation.
-
-Available endpoints:
-
-| Method | Path | Auth required | Description |
-|---|---|---|---|
-| GET | `/` | No | Health check |
-| GET | `/word-of-the-day` | No | Today's vocabulary word (`?lang=es` for Spanish labels) |
-| GET | `/courses` | No | List of all active courses |
-| GET | `/courses/{level}` | No | Full detail for a specific CEFR level (e.g. `/courses/b1`) |
-| POST | `/auth/login` | No | Authenticate with username + password, receive a JWT |
-| POST | `/enquiries` | Yes — JWT | Submit a prospective student enquiry |
-| GET | `/users/me` | Yes — JWT | Return the authenticated user's profile |
-| PUT | `/users/me` | Yes — JWT | Update first name and/or last name |
-| DELETE | `/users/me` | Yes — JWT | Permanently delete the authenticated user's account |
-
-**Authentication flow:** call `POST /auth/login` with a valid username and password (account must be created via the Flask website first). The response contains a JWT access token valid for 30 minutes. Pass it on subsequent requests as `Authorization: Bearer <token>`.
+> **macOS note:** Use `127.0.0.1` rather than `localhost`. On macOS, `localhost` may resolve to an IPv6 address, causing connection delays or failures with Flask's development server.
 
 ---
 
-### Running in production
+### Running the REST API
 
-For production, use Gunicorn instead of Flask's built-in server:
+The FastAPI API runs as a separate process on port 8000:
+```bash
+uvicorn api.main:app --reload --port 8000
 ```
+
+Interactive documentation is available at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).
+
+#### Endpoints
+
+| Method | Path | Auth | Description |
+|---|---|---|---|
+| `GET` | `/` | — | Health check |
+| `GET` | `/word-of-the-day` | — | Today's vocabulary word; `?lang=es` returns a Spanish section label |
+| `GET` | `/courses` | — | List of all active courses |
+| `GET` | `/courses/{level}` | — | Full detail for a CEFR level (e.g. `/courses/b1`) |
+| `POST` | `/auth/login` | — | Exchange credentials for a JWT access token |
+| `POST` | `/enquiries` | JWT | Submit a prospective student enquiry |
+| `GET` | `/users/me` | JWT | Retrieve the authenticated user's profile |
+| `PUT` | `/users/me` | JWT | Update `first_name` and/or `last_name` |
+| `DELETE` | `/users/me` | JWT | Permanently delete the authenticated user's account |
+
+**Authentication:** call `POST /auth/login` with a valid `username` and `password`. Accounts are created via the web application. The response returns a JWT access token valid for 30 minutes; pass it on subsequent requests in the `Authorization: Bearer <token>` header.
+
+---
+
+### Production deployment
+
+Use Gunicorn as the WSGI server in production:
+```bash
 gunicorn wsgi:app
 ```
 
-This serves the app with multiple workers for better performance and reliability. Hosting platforms like Render or Railway will use this command as their start command.
+The application is configured for deployment on PythonAnywhere (SQLite, persistent filesystem). Set `SESSION_COOKIE_SECURE=true` and `FLASK_DEBUG=false` as environment variables on the hosting platform.
 
 ---
 
 ## Project structure
 
 ```
-language_school/
-├── run.py                  ← Flask development entry point
-├── wsgi.py                 ← Flask production entry point (Gunicorn)
-├── .env                    ← secret key (not committed)
+english-with-flor/
+├── run.py                  ← Development entry point
+├── wsgi.py                 ← Production entry point (Gunicorn)
+├── .env                    ← Environment variables (not committed)
 ├── requirements.txt
-├── app/                    ← Flask web app
-│   ├── __init__.py         ← app factory
-│   ├── models.py           ← User, Enrolment, and ContactMessage database models
-│   ├── routes.py           ← main blueprint (public pages)
-│   ├── auth.py             ← auth blueprint (register, login, enrol, edit profile, change password, delete account, admin)
+├── app/                    ← Flask web application
+│   ├── __init__.py         ← Application factory, extensions
+│   ├── models.py           ← SQLAlchemy models: User, Enrolment, ContactMessage
+│   ├── routes.py           ← Main blueprint: public pages, feature flags
+│   ├── auth.py             ← Auth blueprint: register, login, enrol, profile management, admin
 │   ├── forms.py            ← WTForms form classes
-│   ├── translations.py     ← EN/ES text dictionary
-│   ├── words.py            ← curated word list for the Word of the Day feature
+│   ├── translations.py     ← EN/ES translation dictionary
+│   ├── words.py            ← Word of the Day word list
 │   ├── templates/          ← Jinja2 HTML templates
 │   └── static/             ← CSS and images
 └── api/                    ← FastAPI REST API
-    ├── main.py             ← API entry point, CORS middleware, router registration
-    ├── auth.py             ← JWT creation and verification, get_current_user dependency
-    ├── database.py         ← SQLAlchemy engine, SessionLocal, get_db dependency
-    ├── models.py           ← Standalone SQLAlchemy User model (maps to Flask's school.db)
-    ├── schemas.py          ← Pydantic request/response models
+    ├── main.py             ← Application instance, CORS middleware, router registration
+    ├── auth.py             ← JWT utilities and get_current_user dependency
+    ├── database.py         ← SQLAlchemy engine, session factory, get_db dependency
+    ├── models.py           ← Standalone SQLAlchemy User model (maps to Flask's schema)
+    ├── schemas.py          ← Pydantic request and response models
     └── routes/
-        ├── words.py        ← GET /word-of-the-day
-        ├── courses.py      ← GET /courses, GET /courses/{level}
-        ├── enquiries.py    ← POST /enquiries (JWT protected)
         ├── login.py        ← POST /auth/login
-        └── users.py        ← GET /PUT /DELETE /users/me (JWT protected)
+        ├── users.py        ← GET, PUT, DELETE /users/me
+        ├── enquiries.py    ← POST /enquiries
+        ├── courses.py      ← GET /courses, GET /courses/{level}
+        └── words.py        ← GET /word-of-the-day
 ```
 
 ---
 
-## Planned next steps
+## Roadmap
 
-- Password reset via email link
-- Booking flow for level tests — WhatsApp CTA added (placeholder number, swap in real number when ready)
-- Deployment
+- Password reset via email link (Flask-Mail + itsdangerous signed tokens)
+- Booking flow for level test appointments
+- Deployment to PythonAnywhere
