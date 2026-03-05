@@ -21,7 +21,7 @@ Built as a Python learning project, working through Flask fundamentals step by s
 - Contact form — messages saved to the database with a WhatsApp CTA for quick replies
 - Custom error pages — styled 404 and 500 pages with bilingual support
 - Feature flags — course visibility controlled by simple boolean flags in `routes.py` (e.g. `SHOW_C_LEVELS` toggles C1 and C2 courses on when ready to launch)
-- REST API — standalone FastAPI companion API on port 8000 with auto-generated Swagger documentation (`/docs`); exposes course data and Word of the Day as JSON endpoints with Pydantic-validated response schemas
+- REST API — standalone FastAPI companion API on port 8000 with auto-generated Swagger documentation (`/docs`); exposes course data, Word of the Day, and user profile management as JSON endpoints with Pydantic-validated request/response schemas; JWT authentication via `python-jose` (HS256) protects write endpoints; CORS middleware restricts browser access to permitted origins; connects to the same SQLite database as the Flask app via a standalone SQLAlchemy session (no Flask context required)
 
 ---
 
@@ -40,6 +40,8 @@ Built as a Python learning project, working through Flask fundamentals step by s
 | Environment variables | python-dotenv |
 | Front end | Custom CSS + vanilla JavaScript |
 | REST API | FastAPI + Uvicorn |
+| API auth | python-jose (JWT / HS256) |
+| API data validation | Pydantic v2 |
 
 ---
 
@@ -91,11 +93,20 @@ uvicorn api.main:app --reload --port 8000
 Then open [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs) for the auto-generated interactive documentation.
 
 Available endpoints:
-- `GET /` — health check
-- `GET /word-of-the-day` — today's vocabulary word (supports `?lang=es` for Spanish labels)
-- `GET /courses` — list of all active courses
-- `GET /courses/{level}` — full detail for a specific CEFR level (e.g. `/courses/b1`)
-- `POST /enquiries` — submit a prospective student enquiry
+
+| Method | Path | Auth required | Description |
+|---|---|---|---|
+| GET | `/` | No | Health check |
+| GET | `/word-of-the-day` | No | Today's vocabulary word (`?lang=es` for Spanish labels) |
+| GET | `/courses` | No | List of all active courses |
+| GET | `/courses/{level}` | No | Full detail for a specific CEFR level (e.g. `/courses/b1`) |
+| POST | `/auth/login` | No | Authenticate with username + password, receive a JWT |
+| POST | `/enquiries` | Yes — JWT | Submit a prospective student enquiry |
+| GET | `/users/me` | Yes — JWT | Return the authenticated user's profile |
+| PUT | `/users/me` | Yes — JWT | Update first name and/or last name |
+| DELETE | `/users/me` | Yes — JWT | Permanently delete the authenticated user's account |
+
+**Authentication flow:** call `POST /auth/login` with a valid username and password (account must be created via the Flask website first). The response contains a JWT access token valid for 30 minutes. Pass it on subsequent requests as `Authorization: Bearer <token>`.
 
 ---
 
@@ -129,12 +140,17 @@ language_school/
 │   ├── templates/          ← Jinja2 HTML templates
 │   └── static/             ← CSS and images
 └── api/                    ← FastAPI REST API
-    ├── main.py             ← API entry point
-    ├── schemas.py          ← Pydantic response models
+    ├── main.py             ← API entry point, CORS middleware, router registration
+    ├── auth.py             ← JWT creation and verification, get_current_user dependency
+    ├── database.py         ← SQLAlchemy engine, SessionLocal, get_db dependency
+    ├── models.py           ← Standalone SQLAlchemy User model (maps to Flask's school.db)
+    ├── schemas.py          ← Pydantic request/response models
     └── routes/
         ├── words.py        ← GET /word-of-the-day
         ├── courses.py      ← GET /courses, GET /courses/{level}
-        └── enquiries.py    ← POST /enquiries
+        ├── enquiries.py    ← POST /enquiries (JWT protected)
+        ├── login.py        ← POST /auth/login
+        └── users.py        ← GET /PUT /DELETE /users/me (JWT protected)
 ```
 
 ---
@@ -143,5 +159,4 @@ language_school/
 
 - Password reset via email link
 - Booking flow for level tests — WhatsApp CTA added (placeholder number, swap in real number when ready)
-- FastAPI — JWT authentication
 - Deployment

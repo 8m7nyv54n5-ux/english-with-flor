@@ -1,30 +1,27 @@
 # api/schemas.py
-# Pydantic models that define the shape of API request and response data.
-# FastAPI uses these to validate data and auto-generate documentation.
+# Pydantic models defining the shape of all API request and response bodies.
+# FastAPI uses these for automatic validation and Swagger documentation.
 
 from pydantic import BaseModel
+from typing import Optional
 
 
-# CourseSummary defines what a course looks like in a list response.
-# Each field has a type hint — Pydantic enforces these automatically.
 class CourseSummary(BaseModel):
-    level: str      # e.g. "A1", "A2", "B1"
-    title: str      # e.g. "Complete Beginner"
-    tagline: str    # short description
-    price: str      # e.g. "ARS 15,000 / month"
+    level: str
+    title: str
+    tagline: str
+    price: str
 
 
-# CourseDetail is returned by GET /courses/{level}.
-# It extends CourseSummary with the richer fields from the course detail page.
+# Extends CourseSummary with the additional fields returned by GET /courses/{level}.
 class CourseDetail(CourseSummary):
-    who_desc: str       # who the course is for
-    learn_items: list[str]  # bullet points of what students will learn
-    format_desc: str    # how lessons are delivered
+    who_desc: str
+    learn_items: list[str]
+    format_desc: str
 
 
-# WordOfDay defines the shape of the /word-of-the-day response.
 class WordOfDay(BaseModel):
-    label: str          # "Word of the Day" / "Palabra del día"
+    label: str          # Localised label: "Word of the Day" / "Palabra del día"
     word: str
     phonetic: str
     part_of_speech: str
@@ -32,16 +29,41 @@ class WordOfDay(BaseModel):
     example: str
 
 
-# EnquiryIn defines what the client must send in the POST /enquiries request body.
-# Pydantic validates all fields automatically — missing or wrong types get a 422 error.
+class LoginRequest(BaseModel):
+    username: str
+    password: str
+
+
+class Token(BaseModel):
+    access_token: str
+    token_type: str     # Always "bearer"
+
+
+# from_attributes=True allows Pydantic to read values directly from SQLAlchemy
+# model instances (ORM objects) rather than requiring a plain dict.
+class UserProfile(BaseModel):
+    username:   str
+    email:      str
+    first_name: str
+    last_name:  str
+    is_admin:   bool
+
+    model_config = {"from_attributes": True}
+
+
+# Both fields are Optional so clients can update one or both in a single request.
+class UserUpdate(BaseModel):
+    first_name: Optional[str] = None
+    last_name:  Optional[str] = None
+
+
 class EnquiryIn(BaseModel):
     name: str
     email: str
     message: str
 
 
-# EnquiryOut defines what we send back to the client after receiving an enquiry.
-# It extends EnquiryIn (echoing back what was sent) and adds server-generated fields.
+# Extends EnquiryIn, echoing the submitted fields alongside server-generated metadata.
 class EnquiryOut(EnquiryIn):
-    received_at: str    # ISO timestamp of when the enquiry was received
-    confirmation: str   # Human-readable confirmation message
+    received_at: str    # ISO 8601 UTC timestamp
+    confirmation: str

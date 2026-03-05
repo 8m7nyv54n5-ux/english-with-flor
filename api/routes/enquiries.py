@@ -1,32 +1,25 @@
 # api/routes/enquiries.py
-# Handles the POST /enquiries endpoint.
-# Introduces request bodies — the client sends JSON data to us.
+# POST /enquiries — accepts a prospective student enquiry. Requires a valid JWT.
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from api.schemas import EnquiryIn, EnquiryOut
+from api.auth import get_current_user
 from datetime import datetime, timezone
 
 router = APIRouter()
 
 
-# @router.post — this handles HTTP POST requests, not GET.
-# POST is used when the client is sending data to create or submit something.
-# response_model=EnquiryOut tells FastAPI what shape to validate and document for the response.
-# status_code=201 — 201 Created is the correct HTTP status for a successfully created resource.
-#   (The default would be 200 OK, which is technically less accurate for a POST.)
 @router.post("/enquiries", response_model=EnquiryOut, status_code=201)
-def create_enquiry(enquiry: EnquiryIn):
-    """Accept a new enquiry from a prospective student."""
-    # `enquiry` is already a validated EnquiryIn object — FastAPI parsed and checked it for us.
-    # If name/email/message were missing or the wrong type, FastAPI returned a 422 before we got here.
+def create_enquiry(enquiry: EnquiryIn, current_user: str = Depends(get_current_user)):
+    """
+    Accept and acknowledge a new enquiry from a prospective student.
 
-    # Generate a timestamp for when we received this enquiry.
-    # datetime.now(timezone.utc) gives the current time in UTC — always use UTC on servers.
-    # .isoformat() converts it to a standard string like "2026-03-04T14:32:00+00:00"
+    Pydantic validates the request body before this function runs; a missing or
+    malformed field returns 422 automatically. The JWT dependency returns 401 if
+    the token is absent or invalid.
+    """
     received_at = datetime.now(timezone.utc).isoformat()
 
-    # Build and return the response.
-    # We echo back what was sent (name, email, message) plus our server-generated fields.
     return {
         "name":         enquiry.name,
         "email":        enquiry.email,
