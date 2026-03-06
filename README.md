@@ -24,6 +24,7 @@ A bilingual English/Spanish language school web application built with Python, F
 - **Shared data layer** — connects to the same `school.db` SQLite database as the Flask app via a standalone SQLAlchemy session; no data duplication
 - **CORS** — `CORSMiddleware` restricts browser cross-origin requests to permitted origins
 - **Auto-generated documentation** — interactive Swagger UI available at `/docs`
+- **Test suite** — 18 pytest tests using FastAPI's `TestClient`; covers all endpoints, authentication flows, 404 handling, and Pydantic validation errors; isolated via an in-memory SQLite database with `dependency_overrides`
 
 ---
 
@@ -111,6 +112,16 @@ Interactive documentation is available at [http://127.0.0.1:8000/docs](http://12
 
 ---
 
+### Running the tests
+
+```bash
+pytest api/tests/ -v
+```
+
+All 18 tests run against an in-memory SQLite database — the real `school.db` is never touched.
+
+---
+
 ### Production deployment
 
 Use Gunicorn as the WSGI server in production:
@@ -146,12 +157,15 @@ english-with-flor/
     ├── database.py         ← SQLAlchemy engine, session factory, get_db dependency
     ├── models.py           ← Standalone SQLAlchemy User model (maps to Flask's schema)
     ├── schemas.py          ← Pydantic request and response models
-    └── routes/
-        ├── login.py        ← POST /auth/login
-        ├── users.py        ← GET, PUT, DELETE /users/me
-        ├── enquiries.py    ← POST /enquiries
-        ├── courses.py      ← GET /courses, GET /courses/{level}
-        └── words.py        ← GET /word-of-the-day
+    ├── routes/
+    │   ├── login.py        ← POST /auth/login
+    │   ├── users.py        ← GET, PUT, DELETE /users/me
+    │   ├── enquiries.py    ← POST /enquiries
+    │   ├── courses.py      ← GET /courses, GET /courses/{level}
+    │   └── words.py        ← GET /word-of-the-day
+    └── tests/
+        ├── conftest.py     ← fixtures: TestClient, in-memory DB, test user, auth token
+        └── test_api.py     ← 18 tests covering all endpoints
 ```
 
 ---
@@ -164,7 +178,6 @@ english-with-flor/
 - Deployment to PythonAnywhere
 
 ### REST API
-- API test suite — pytest + FastAPI TestClient covering authentication, protected endpoints, validation errors, and 404 handling
 - Persist enquiries to the database — new `Enquiry` model; `POST /enquiries` saves submissions to `school.db`
 - Rate limiting on login and enquiry endpoints (slowapi)
 - `GET /enrolments/me` — return the authenticated user's enrolment details
