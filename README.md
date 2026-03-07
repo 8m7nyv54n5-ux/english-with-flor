@@ -104,12 +104,12 @@ Interactive documentation is available at [http://127.0.0.1:8000/docs](http://12
 | `GET` | `/courses` | — | List of all active courses |
 | `GET` | `/courses/{level}` | — | Full detail for a CEFR level (e.g. `/courses/b1`) |
 | `POST` | `/auth/login` | — | Exchange credentials for a JWT access token |
-| `POST` | `/enquiries` | JWT | Submit a prospective student enquiry |
+| `POST` | `/enquiries` | JWT | Submit a prospective student enquiry (saved to database) |
 | `GET` | `/users/me` | JWT | Retrieve the authenticated user's profile |
 | `PUT` | `/users/me` | JWT | Update `first_name` and/or `last_name` |
 | `DELETE` | `/users/me` | JWT | Permanently delete the authenticated user's account |
 
-**Authentication:** call `POST /auth/login` with a valid `username` and `password`. Accounts are created via the web application. The response returns a JWT access token valid for 30 minutes; pass it on subsequent requests in the `Authorization: Bearer <token>` header.
+**Authentication:** call `POST /auth/login` with a valid `username` and `password` (form data). Accounts are created via the web application. The response returns a JWT access token valid for 30 minutes; pass it on subsequent requests in the `Authorization: Bearer <token>` header. In Swagger UI, click **Authorize**, enter your username and password, and leave the client fields blank — the token is handled automatically.
 
 ---
 
