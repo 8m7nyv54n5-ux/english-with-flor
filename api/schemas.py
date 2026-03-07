@@ -4,6 +4,7 @@
 
 from pydantic import BaseModel
 from typing import Optional
+from datetime import datetime
 
 
 class CourseSummary(BaseModel):
@@ -63,7 +64,14 @@ class EnquiryIn(BaseModel):
     message: str
 
 
-# Extends EnquiryIn, echoing the submitted fields alongside server-generated metadata.
-class EnquiryOut(EnquiryIn):
-    received_at: str    # ISO 8601 UTC timestamp
+# from_attributes=True lets Pydantic read from a SQLAlchemy model instance (not just a dict).
+# received_at is a datetime object from the DB — Pydantic serialises it to ISO 8601 automatically.
+class EnquiryOut(BaseModel):
+    id:           int
+    name:         str
+    email:        str
+    message:      str
+    received_at:  datetime
     confirmation: str
+
+    model_config = {"from_attributes": True}

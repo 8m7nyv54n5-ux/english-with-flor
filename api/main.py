@@ -8,6 +8,12 @@ load_dotenv()  # loads .env before any module reads os.environ (e.g. api/auth.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.routes import words, courses, enquiries, login, users
+from api.models import Base
+from api.database import engine
+
+# Create any tables that don't yet exist in school.db (e.g. the new 'enquiry' table).
+# Safe to run every startup — skips tables that already exist.
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="English with Flor API")
 

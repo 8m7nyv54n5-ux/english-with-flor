@@ -116,5 +116,6 @@ def auth_token(client, test_user):
     Fixtures can depend on other fixtures — pytest wires them up automatically.
     Any test that needs an authenticated client can use this fixture directly.
     """
-    response = client.post("/auth/login", json=test_user)
+    # Login uses form data (OAuth2PasswordRequestForm), not JSON — use data= not json=
+    response = client.post("/auth/login", data=test_user)
     return response.json()["access_token"]

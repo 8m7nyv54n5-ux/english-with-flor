@@ -91,7 +91,8 @@ def test_course_detail_invalid_level_returns_404(client):
 
 def test_login_valid_credentials_returns_token(client, test_user):
     """POST /auth/login with correct credentials should return a Bearer token."""
-    response = client.post("/auth/login", json=test_user)
+    # Login expects form data (OAuth2PasswordRequestForm), not JSON
+    response = client.post("/auth/login", data=test_user)
     data = response.json()
 
     assert response.status_code == 200
@@ -101,7 +102,7 @@ def test_login_valid_credentials_returns_token(client, test_user):
 
 def test_login_wrong_password_returns_401(client, test_user):
     """POST /auth/login with a bad password should return 401."""
-    response = client.post("/auth/login", json={
+    response = client.post("/auth/login", data={
         "username": test_user["username"],
         "password": "wrongpassword",
     })
@@ -111,7 +112,7 @@ def test_login_wrong_password_returns_401(client, test_user):
 
 def test_login_unknown_user_returns_401(client):
     """POST /auth/login with a username that doesn't exist should return 401."""
-    response = client.post("/auth/login", json={
+    response = client.post("/auth/login", data={
         "username": "nobody",
         "password": "irrelevant",
     })
@@ -172,6 +173,7 @@ def test_post_enquiry_valid(client, auth_token):
     data = response.json()
 
     assert response.status_code == 201
+    assert isinstance(data["id"], int)   # DB-assigned primary key
     assert data["name"] == payload["name"]
     assert data["email"] == payload["email"]
     assert data["message"] == payload["message"]

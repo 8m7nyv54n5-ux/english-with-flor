@@ -19,12 +19,13 @@ A bilingual English/Spanish language school web application built with Python, F
 - **Feature flags** — boolean constants in `routes.py` control course visibility, enabling staged content releases without code changes
 
 ### REST API
-- **JWT authentication** — HS256-signed tokens issued by `POST /auth/login`; verified on protected endpoints via a FastAPI dependency (`get_current_user`)
+- **JWT authentication** — HS256-signed tokens issued by `POST /auth/login` via `OAuth2PasswordRequestForm`; verified on protected endpoints via a FastAPI dependency (`get_current_user`); integrates with Swagger UI's Authorize button
+- **Enquiry persistence** — `POST /enquiries` saves submissions to a dedicated `enquiry` table in `school.db`; table created automatically on startup via `Base.metadata.create_all()`
 - **Pydantic validation** — all request bodies and response schemas are defined as Pydantic `BaseModel` subclasses; malformed requests return `422 Unprocessable Entity` automatically
 - **Shared data layer** — connects to the same `school.db` SQLite database as the Flask app via a standalone SQLAlchemy session; no data duplication
 - **CORS** — `CORSMiddleware` restricts browser cross-origin requests to permitted origins
 - **Auto-generated documentation** — interactive Swagger UI available at `/docs`
-- **Test suite** — 18 pytest tests using FastAPI's `TestClient`; covers all endpoints, authentication flows, 404 handling, and Pydantic validation errors; isolated via an in-memory SQLite database with `dependency_overrides`
+- **Test suite** — 17 pytest tests using FastAPI's `TestClient`; covers all endpoints, authentication flows, 404 handling, and Pydantic validation errors; isolated via an in-memory SQLite database with `dependency_overrides`
 
 ---
 
@@ -118,7 +119,7 @@ Interactive documentation is available at [http://127.0.0.1:8000/docs](http://12
 pytest api/tests/ -v
 ```
 
-All 18 tests run against an in-memory SQLite database — the real `school.db` is never touched.
+All 17 tests run against an in-memory SQLite database — the real `school.db` is never touched.
 
 ---
 
@@ -155,7 +156,7 @@ english-with-flor/
     ├── main.py             ← Application instance, CORS middleware, router registration
     ├── auth.py             ← JWT utilities and get_current_user dependency
     ├── database.py         ← SQLAlchemy engine, session factory, get_db dependency
-    ├── models.py           ← Standalone SQLAlchemy User model (maps to Flask's schema)
+    ├── models.py           ← Standalone SQLAlchemy models: User (existing table), Enquiry (new table)
     ├── schemas.py          ← Pydantic request and response models
     ├── routes/
     │   ├── login.py        ← POST /auth/login
@@ -178,6 +179,5 @@ english-with-flor/
 - Deployment to PythonAnywhere
 
 ### REST API
-- Persist enquiries to the database — new `Enquiry` model; `POST /enquiries` saves submissions to `school.db`
 - Rate limiting on login and enquiry endpoints (slowapi)
 - `GET /enrolments/me` — return the authenticated user's enrolment details
