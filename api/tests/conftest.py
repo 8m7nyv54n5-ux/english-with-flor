@@ -14,7 +14,7 @@ from werkzeug.security import generate_password_hash
 
 from api.main import app
 from api.database import get_db
-from api.models import Base, User
+from api.models import Base, Enrolment, User
 
 
 # ---------------------------------------------------------------------------
@@ -104,6 +104,46 @@ def test_user(client):
     # Clean up: remove the user after the test so the next test starts fresh
     db = TestingSessionLocal()
     db.query(User).filter(User.username == "testuser").delete()
+    db.commit()
+    db.close()
+
+
+@pytest.fixture()
+def enrolled_user(client, test_user):
+    """
+    Extends test_user by also seeding an Enrolment row for that user.
+
+    Builds on fixture chaining — test_user creates the User, this fixture
+    then looks up that user's id to attach a matching Enrolment record.
+    Returns the same credentials dict so the test can still log in normally.
+    """
+    db = TestingSessionLocal()
+    user = db.query(User).filter(User.username == "testuser").first()
+    # Store the id as a plain int now — once the session closes, accessing
+    # user.id via the ORM object raises DetachedInstanceError.
+    user_id = user.id
+    enrolment = Enrolment(
+        user_id=user_id,
+        user_type="argentina",
+        course="B1 — Getting There",
+        cuit_cuil="20-12345678-9",
+        dni="12345678",
+        passport_no=None,
+        address_line="Av. Corrientes 1234",
+        city="Buenos Aires",
+        province="CABA",
+        country="Argentina",
+        postcode="C1043",
+    )
+    db.add(enrolment)
+    db.commit()
+    db.close()
+
+    yield test_user
+
+    # Clean up the enrolment row after the test
+    db = TestingSessionLocal()
+    db.query(Enrolment).filter(Enrolment.user_id == user_id).delete()
     db.commit()
     db.close()
 

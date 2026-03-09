@@ -201,3 +201,47 @@ def test_post_enquiry_no_token_returns_401(client):
     })
 
     assert response.status_code == 401
+
+
+# ---------------------------------------------------------------------------
+# Enrolments
+# ---------------------------------------------------------------------------
+
+def test_get_enrolment_no_token_returns_401(client):
+    """GET /enrolments/me without a token should return 401."""
+    response = client.get("/enrolments/me")
+
+    assert response.status_code == 401
+
+
+def test_get_enrolment_not_enrolled_returns_404(client, auth_token):
+    """GET /enrolments/me when the user has no enrolment should return 404."""
+    response = client.get(
+        "/enrolments/me",
+        headers={"Authorization": f"Bearer {auth_token}"},
+    )
+
+    assert response.status_code == 404
+
+
+def test_get_enrolment_returns_correct_data(client, enrolled_user):
+    """GET /enrolments/me should return the authenticated user's enrolment record."""
+    # Log in as the enrolled user to get a token
+    token_response = client.post("/auth/login", data=enrolled_user)
+    token = token_response.json()["access_token"]
+
+    response = client.get(
+        "/enrolments/me",
+        headers={"Authorization": f"Bearer {token}"},
+    )
+    data = response.json()
+
+    assert response.status_code == 200
+    assert data["course"] == "B1 — Getting There"
+    assert data["user_type"] == "argentina"
+    assert data["city"] == "Buenos Aires"
+    # Argentine student — passport_no should be absent or null
+    assert data.get("passport_no") is None
+    # Required address fields should all be present
+    for field in ("address_line", "city", "province", "country", "postcode"):
+        assert field in data, f"Missing field: {field}"

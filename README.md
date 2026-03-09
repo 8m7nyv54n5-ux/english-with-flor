@@ -27,7 +27,7 @@ A bilingual English/Spanish language school web application built with Python, F
 - **Shared data layer** — connects to the same `school.db` SQLite database as the Flask app via a standalone SQLAlchemy session; no data duplication
 - **CORS** — `CORSMiddleware` restricts browser cross-origin requests to permitted origins
 - **Auto-generated documentation** — interactive Swagger UI available at `/docs`
-- **Test suite** — 17 pytest tests using FastAPI's `TestClient`; covers all endpoints, authentication flows, 404 handling, and Pydantic validation errors; isolated via an in-memory SQLite database with `dependency_overrides`
+- **Test suite** — 20 pytest tests using FastAPI's `TestClient`; covers all endpoints, authentication flows, 404 handling, and Pydantic validation errors; isolated via an in-memory SQLite database with `dependency_overrides`
 
 ---
 
@@ -170,8 +170,8 @@ english-with-flor/
     │   ├── courses.py      ← GET /courses, GET /courses/{level}
     │   └── words.py        ← GET /word-of-the-day
     └── tests/
-        ├── conftest.py     ← fixtures: TestClient, in-memory DB, test user, auth token
-        └── test_api.py     ← 18 tests covering all endpoints
+        ├── conftest.py     ← fixtures: TestClient, in-memory DB, test user, auth token, enrolled user
+        └── test_api.py     ← 20 tests covering all endpoints
 ```
 
 ---
