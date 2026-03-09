@@ -21,6 +21,8 @@ A bilingual English/Spanish language school web application built with Python, F
 ### REST API
 - **JWT authentication** — HS256-signed tokens issued by `POST /auth/login` via `OAuth2PasswordRequestForm`; verified on protected endpoints via a FastAPI dependency (`get_current_user`); integrates with Swagger UI's Authorize button
 - **Enquiry persistence** — `POST /enquiries` saves submissions to a dedicated `enquiry` table in `school.db`; table created automatically on startup via `Base.metadata.create_all()`
+- **Enrolment access** — `GET /enrolments/me` returns the authenticated user's full enrolment record, including student type, course, and address fields; returns 404 if not yet enrolled
+- **Rate limiting** — `POST /auth/login` limited to 5 requests/minute per IP (brute-force protection); `POST /enquiries` limited to 10 requests/minute per IP (spam prevention); exceeded limits return `429 Too Many Requests`
 - **Pydantic validation** — all request bodies and response schemas are defined as Pydantic `BaseModel` subclasses; malformed requests return `422 Unprocessable Entity` automatically
 - **Shared data layer** — connects to the same `school.db` SQLite database as the Flask app via a standalone SQLAlchemy session; no data duplication
 - **CORS** — `CORSMiddleware` restricts browser cross-origin requests to permitted origins
@@ -39,7 +41,7 @@ A bilingual English/Spanish language school web application built with Python, F
 | Database | SQLite via Flask-SQLAlchemy |
 | Authentication | Flask-Login + Werkzeug |
 | Forms | Flask-WTF |
-| Rate limiting | Flask-Limiter |
+| Rate limiting | Flask-Limiter / slowapi |
 | Production server | Gunicorn |
 | Environment variables | python-dotenv |
 | Front end | Custom CSS + vanilla JavaScript |
@@ -104,12 +106,13 @@ Interactive documentation is available at [http://127.0.0.1:8000/docs](http://12
 | `GET` | `/courses` | — | List of all active courses |
 | `GET` | `/courses/{level}` | — | Full detail for a CEFR level (e.g. `/courses/b1`) |
 | `POST` | `/auth/login` | — | Exchange credentials for a JWT access token |
-| `POST` | `/enquiries` | JWT | Submit a prospective student enquiry (saved to database) |
+| `POST` | `/enquiries` | JWT | Submit a prospective student enquiry (saved to database); rate limited to 10/min |
 | `GET` | `/users/me` | JWT | Retrieve the authenticated user's profile |
 | `PUT` | `/users/me` | JWT | Update `first_name` and/or `last_name` |
 | `DELETE` | `/users/me` | JWT | Permanently delete the authenticated user's account |
+| `GET` | `/enrolments/me` | JWT | Retrieve the authenticated user's enrolment details |
 
-**Authentication:** call `POST /auth/login` with a valid `username` and `password` (form data). Accounts are created via the web application. The response returns a JWT access token valid for 30 minutes; pass it on subsequent requests in the `Authorization: Bearer <token>` header. In Swagger UI, click **Authorize**, enter your username and password, and leave the client fields blank — the token is handled automatically.
+**Authentication:** call `POST /auth/login` with a valid `username` and `password` (form data). Accounts are created via the web application. The response returns a JWT access token valid for 30 minutes; pass it on subsequent requests in the `Authorization: Bearer <token>` header. In Swagger UI, click **Authorize**, enter your username and password, and leave the client fields blank — the token is handled automatically. Login is rate limited to 5 attempts per minute per IP.
 
 ---
 
@@ -156,12 +159,14 @@ english-with-flor/
     ├── main.py             ← Application instance, CORS middleware, router registration
     ├── auth.py             ← JWT utilities and get_current_user dependency
     ├── database.py         ← SQLAlchemy engine, session factory, get_db dependency
-    ├── models.py           ← Standalone SQLAlchemy models: User (existing table), Enquiry (new table)
+    ├── limiter.py          ← Shared slowapi Limiter instance (avoids circular imports)
+    ├── models.py           ← Standalone SQLAlchemy models: User, Enrolment, Enquiry
     ├── schemas.py          ← Pydantic request and response models
     ├── routes/
-    │   ├── login.py        ← POST /auth/login
+    │   ├── login.py        ← POST /auth/login (rate limited)
     │   ├── users.py        ← GET, PUT, DELETE /users/me
-    │   ├── enquiries.py    ← POST /enquiries
+    │   ├── enquiries.py    ← POST /enquiries (rate limited)
+    │   ├── enrolments.py   ← GET /enrolments/me
     │   ├── courses.py      ← GET /courses, GET /courses/{level}
     │   └── words.py        ← GET /word-of-the-day
     └── tests/
@@ -179,5 +184,5 @@ english-with-flor/
 - Deployment to PythonAnywhere
 
 ### REST API
-- Rate limiting on login and enquiry endpoints (slowapi)
-- `GET /enrolments/me` — return the authenticated user's enrolment details
+- Email verification on registration
+- Deployment alongside Flask app

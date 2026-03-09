@@ -5,9 +5,12 @@
 from dotenv import load_dotenv
 load_dotenv()  # loads .env before any module reads os.environ (e.g. api/auth.py)
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from api.routes import words, courses, enquiries, login, users
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from api.limiter import limiter
+from api.routes import words, courses, enquiries, enrolments, login, users
 from api.models import Base
 from api.database import engine
 
@@ -16,6 +19,11 @@ from api.database import engine
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="English with Flor API")
+
+# Attach the limiter to app.state so slowapi can find it from inside route functions.
+# add_exception_handler ensures a clean 429 JSON response when a limit is exceeded.
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 
 # ---------------------------------------------------------------------------
 # CORS middleware
@@ -38,6 +46,7 @@ app.add_middleware(
 app.include_router(words.router)
 app.include_router(courses.router)
 app.include_router(enquiries.router)
+app.include_router(enrolments.router)
 app.include_router(login.router)
 app.include_router(users.router)
 

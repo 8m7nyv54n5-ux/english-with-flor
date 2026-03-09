@@ -1,7 +1,7 @@
 # api/routes/login.py
 # POST /auth/login — authenticates a user and returns a signed JWT.
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 from werkzeug.security import check_password_hash
@@ -9,12 +9,15 @@ from api.schemas import Token
 from api.auth import create_access_token
 from api.database import get_db
 from api.models import User
+from api.limiter import limiter
 
 router = APIRouter()
 
 
+# 5 login attempts per minute per IP — protects against brute-force password attacks.
+@limiter.limit("5/minute")
 @router.post("/auth/login", response_model=Token)
-def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
+def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     """
     Validate credentials against school.db and return a JWT on success.
 

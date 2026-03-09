@@ -58,6 +58,22 @@ class UserUpdate(BaseModel):
     last_name:  Optional[str] = None
 
 
+class EnrolmentOut(BaseModel):
+    id:           int
+    user_type:    str
+    course:       str
+    cuit_cuil:    Optional[str]
+    dni:          Optional[str]
+    passport_no:  Optional[str]
+    address_line: str
+    city:         str
+    province:     str
+    country:      str
+    postcode:     str
+
+    model_config = {"from_attributes": True}
+
+
 class EnquiryIn(BaseModel):
     name: str
     email: str

@@ -2,18 +2,22 @@
 # POST /enquiries — accepts a prospective student enquiry and saves it to the database.
 # Requires a valid JWT.
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Request
 from sqlalchemy.orm import Session
 from api.schemas import EnquiryIn, EnquiryOut
 from api.auth import get_current_user
 from api.database import get_db
 from api.models import Enquiry
+from api.limiter import limiter
 
 router = APIRouter()
 
 
+# 10 enquiries per minute per IP — prevents spam while allowing legitimate bursts.
+@limiter.limit("10/minute")
 @router.post("/enquiries", response_model=EnquiryOut, status_code=201)
 def create_enquiry(
+    request: Request,
     enquiry: EnquiryIn,
     current_user: str = Depends(get_current_user),
     db: Session = Depends(get_db),

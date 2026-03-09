@@ -11,7 +11,7 @@
 #
 # Enquiry is a new table created by FastAPI on startup via Base.metadata.create_all().
 
-from sqlalchemy import Boolean, Column, DateTime, Integer, String
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String
 from sqlalchemy.orm import DeclarativeBase
 from datetime import datetime, timezone
 
@@ -31,6 +31,30 @@ class User(Base):
     last_name     = Column(String(80),  nullable=False)
     password_hash = Column(String(256), nullable=False)
     is_admin      = Column(Boolean, default=False)
+
+
+class Enrolment(Base):
+    """Maps to the 'enrolment' table created by the Flask app."""
+    __tablename__ = "enrolment"
+
+    id           = Column(Integer, primary_key=True)
+    user_id      = Column(Integer, ForeignKey("user.id"), nullable=False)
+    user_type    = Column(String(20),  nullable=False)   # "argentina" or "international"
+    course       = Column(String(100), nullable=False)
+
+    # Argentina-only (null for international students)
+    cuit_cuil    = Column(String(20),  nullable=True)
+    dni          = Column(String(20),  nullable=True)
+
+    # International-only (null for Argentine students)
+    passport_no  = Column(String(30),  nullable=True)
+
+    # Address fields — required for all students
+    address_line = Column(String(200), nullable=False)
+    city         = Column(String(100), nullable=False)
+    province     = Column(String(100), nullable=False)
+    country      = Column(String(100), nullable=False)
+    postcode     = Column(String(20),  nullable=False)
 
 
 class Enquiry(Base):
